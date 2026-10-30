@@ -54,3 +54,4 @@ class ActionCableBroadcastJob < ApplicationJob
     end
   end
 end
+ActionCableBroadcastJob.prepend(Shawky::Patches::ActionCableBroadcastJob) # SHAWKY: mask phone numbers in realtime payloads

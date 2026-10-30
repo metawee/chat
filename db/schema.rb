@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_30_181936) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1629,6 +1629,33 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
     t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
+  end
+
+  create_table "shawky_audit_logs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.string "action", null: false
+    t.string "auditable_type"
+    t.bigint "auditable_id"
+    t.jsonb "metadata", default: {}, null: false
+    t.string "ip_address"
+    t.datetime "created_at", null: false
+    t.index ["account_id", "action", "created_at"], name: "index_shawky_audit_logs_on_account_id_and_action_and_created_at"
+    t.index ["account_id"], name: "index_shawky_audit_logs_on_account_id"
+    t.index ["auditable_type", "auditable_id"], name: "index_shawky_audit_logs_on_auditable"
+    t.index ["user_id"], name: "index_shawky_audit_logs_on_user_id"
+  end
+
+  create_table "shawky_team_supervisors", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "team_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shawky_team_supervisors_on_account_id"
+    t.index ["team_id", "user_id"], name: "index_shawky_team_supervisors_on_team_id_and_user_id", unique: true
+    t.index ["team_id"], name: "index_shawky_team_supervisors_on_team_id"
+    t.index ["user_id"], name: "index_shawky_team_supervisors_on_user_id"
   end
 
   create_table "sla_events", force: :cascade do |t|

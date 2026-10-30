@@ -224,3 +224,4 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 end
 
 Api::V1::Accounts::ContactsController.prepend_mod_with('Api::V1::Accounts::ContactsController')
+Api::V1::Accounts::ContactsController.prepend(Shawky::Patches::ContactsController) # SHAWKY: contact scope, no phone search/sort, identity edits

@@ -45,3 +45,4 @@ class ConversationPolicy < ApplicationPolicy
 end
 
 ConversationPolicy.prepend_mod_with('ConversationPolicy')
+ConversationPolicy.prepend(Shawky::Patches::ConversationPolicy) # SHAWKY: assigned/supervisor/history access rules

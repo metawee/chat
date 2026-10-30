@@ -34,3 +34,4 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
     @conversation ||= Current.account.conversations.find_by(display_id: params[:conversation_id])
   end
 end
+Api::V1::Accounts::Conversations::DirectUploadsController.prepend(Shawky::Patches::DirectUploadsController) # SHAWKY: uploads need write access

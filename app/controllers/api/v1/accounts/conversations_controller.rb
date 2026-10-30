@@ -238,3 +238,5 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 end
 
 Api::V1::Accounts::ConversationsController.prepend_mod_with('Api::V1::Accounts::ConversationsController')
+Api::V1::Accounts::ConversationsController.prepend(Shawky::Patches::ConversationWriteGuard) # SHAWKY: history conversations are read-only
+Api::V1::Accounts::ConversationsController.prepend(Shawky::Patches::ConversationsController) # SHAWKY: plain agents cannot start conversations

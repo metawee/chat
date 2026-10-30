@@ -105,3 +105,4 @@ class Account::ContactsExportJob < ApplicationJob
     %w[id name email phone_number labels]
   end
 end
+Account::ContactsExportJob.prepend(Shawky::Patches::ContactsExportJob) # SHAWKY: mask phones + audit exports

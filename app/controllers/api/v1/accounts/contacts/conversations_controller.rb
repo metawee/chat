@@ -44,3 +44,4 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
       .first
   end
 end
+Api::V1::Accounts::Contacts::ConversationsController.prepend(Shawky::Patches::ContactConversationsController) # SHAWKY: read-only contact history

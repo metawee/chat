@@ -50,3 +50,4 @@ end
 Api::V1::Accounts::Conversations::AssignmentsController.prepend_mod_with(
   'Api::V1::Accounts::Conversations::AssignmentsController'
 )
+Api::V1::Accounts::Conversations::AssignmentsController.prepend(Shawky::Patches::AssignmentsController) # SHAWKY: transfer rules + audit

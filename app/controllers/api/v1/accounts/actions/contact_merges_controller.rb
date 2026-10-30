@@ -25,3 +25,4 @@ class Api::V1::Accounts::Actions::ContactMergesController < Api::V1::Accounts::B
     @contacts ||= Current.account.contacts
   end
 end
+Api::V1::Accounts::Actions::ContactMergesController.prepend(Shawky::Patches::ContactMergesController) # SHAWKY: admins only

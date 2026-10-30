@@ -53,3 +53,4 @@ class ContactPolicy < ApplicationPolicy
 end
 
 ContactPolicy.prepend_mod_with('ContactPolicy')
+ContactPolicy.prepend(Shawky::Patches::ContactPolicy) # SHAWKY: plain agents cannot create contacts

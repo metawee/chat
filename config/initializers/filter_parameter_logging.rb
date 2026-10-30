@@ -11,3 +11,6 @@ filter_regex = /\A(?!.*\bwebsite_token\b).*token/i
 
 # Apply the regex for filtering
 Rails.application.config.filter_parameters += [filter_regex]
+
+# SHAWKY: keep customer phone numbers out of logs (WhatsApp webhooks carry them as from/wa_id)
+Rails.application.config.filter_parameters += [:phone, :wa_id, :mobile, :whatsapp, :source_id, :identifier, /\Afrom\z/, /\Ato\z/]

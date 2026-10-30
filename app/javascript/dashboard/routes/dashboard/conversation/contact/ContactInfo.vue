@@ -19,10 +19,12 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import RevealPhoneButton from 'dashboard/shawky/components/RevealPhoneButton.vue'; // SHAWKY
 
 export default {
   components: {
     NextButton,
+    RevealPhoneButton, // SHAWKY
     ContactInfoRow,
     ViewAllConversations,
     EditContact,
@@ -297,6 +299,11 @@ export default {
             show-copy
             editable
             @update="value => onFieldUpdate('phone_number', value)"
+          />
+          <!-- SHAWKY: audited reveal of the masked number for administrators -->
+          <RevealPhoneButton
+            v-if="contact.phone_number"
+            :contact-id="contact.id"
           />
           <ContactInfoRow
             v-if="formattedWhatsappUsername"

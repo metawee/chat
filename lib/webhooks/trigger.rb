@@ -132,3 +132,4 @@ class Webhooks::Trigger
     error.message.to_s[/\A(\d{3})\b/, 1]&.to_i
   end
 end
+Webhooks::Trigger.prepend(Shawky::Patches::WebhookTrigger) # SHAWKY: mask phone numbers in webhook payloads

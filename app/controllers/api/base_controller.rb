@@ -1,5 +1,6 @@
 class Api::BaseController < ApplicationController
   include AccessTokenAuthHelper
+  include Shawky::ApiPayloadMasking # SHAWKY: mask phone numbers in all API responses
   # Raw API tokens must bypass DeviseTokenAuth's encoded dashboard bearer parsing.
   skip_before_action :set_current_user, if: :authenticate_by_access_token?
   respond_to :json

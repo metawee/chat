@@ -875,6 +875,13 @@ const menuItems = computed(() => {
           icon: 'i-lucide-layout-template',
           to: accountScopedRoute('settings_templates'),
         },
+        // SHAWKY: phone privacy and team supervisors
+        {
+          name: 'Settings Shawky',
+          label: t('SHAWKY.SIDEBAR'),
+          icon: 'i-lucide-shield-check',
+          to: accountScopedRoute('shawky_settings'),
+        },
         {
           name: 'Settings Labels',
           label: t('SIDEBAR.LABELS'),

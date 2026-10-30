@@ -37,3 +37,4 @@ class ConversationDrop < BaseDrop
     sender&.available_name || sender&.name
   end
 end
+ConversationDrop.prepend(Shawky::Patches::ConversationDrop) # SHAWKY: mask phone numbers in Liquid

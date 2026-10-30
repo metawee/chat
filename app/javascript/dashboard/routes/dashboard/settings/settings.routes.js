@@ -28,6 +28,7 @@ import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
 import data from './data/data.routes';
+import shawky from 'dashboard/shawky/settings/shawky.routes'; // SHAWKY
 
 export default {
   routes: [
@@ -49,6 +50,7 @@ export default {
       },
     },
     ...account.routes,
+    ...shawky.routes, // SHAWKY
     ...agent.routes,
     ...assignmentPolicy.routes,
     ...agentBot.routes,

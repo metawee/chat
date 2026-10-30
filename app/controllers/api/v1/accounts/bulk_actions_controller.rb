@@ -81,3 +81,4 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
     base_params.merge(common)
   end
 end
+Api::V1::Accounts::BulkActionsController.prepend(Shawky::Patches::BulkActionsController) # SHAWKY: bulk assignment for supervisors/admins only

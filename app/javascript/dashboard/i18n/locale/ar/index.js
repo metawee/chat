@@ -41,6 +41,7 @@ import sla from './sla.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import whatsappTemplateMgmt from './whatsappTemplateMgmt.json';
+import shawky from 'dashboard/shawky/i18n/ar.json'; // SHAWKY
 
 export default {
   ...advancedFilters,
@@ -86,4 +87,5 @@ export default {
   ...teamsSettings,
   ...whatsappTemplates,
   ...whatsappTemplateMgmt,
+  ...shawky, // SHAWKY
 };

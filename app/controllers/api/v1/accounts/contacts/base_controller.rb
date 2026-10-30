@@ -7,3 +7,4 @@ class Api::V1::Accounts::Contacts::BaseController < Api::V1::Accounts::BaseContr
     @contact = Current.account.contacts.find(params[:contact_id])
   end
 end
+Api::V1::Accounts::Contacts::BaseController.prepend(Shawky::Patches::ContactsBaseController) # SHAWKY: contact scope

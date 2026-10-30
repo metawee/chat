@@ -148,3 +148,4 @@ class Integrations::App
     account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present?
   end
 end
+Integrations::App.prepend(Shawky::Patches::IntegrationsApp) # SHAWKY: integrations allowlist

@@ -48,3 +48,4 @@ class Contacts::FilterService < FilterService
     "!= :value_#{current_index}"
   end
 end
+Contacts::FilterService.prepend(Shawky::Patches::ContactsFilterService) # SHAWKY: contact scope, no phone filters

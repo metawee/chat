@@ -1,0 +1,36 @@
+# Shawky Group customizations (see docs/shawky/PLAN.md).
+
+# Restricts /super_admin and the Sidekiq dashboard (job arguments carry raw WhatsApp
+# payloads) to CWS IPs. SHAWKY_DISABLE_SIDEKIQ_WEB=true hides Sidekiq entirely.
+class ShawkyAdminIpAllowlist
+  PROTECTED_PREFIXES = %w[/super_admin /monitoring].freeze
+  SIDEKIQ_PREFIX = '/monitoring/sidekiq'.freeze
+
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    request = ActionDispatch::Request.new(env)
+    return not_found if blocked?(request)
+
+    @app.call(env)
+  end
+
+  private
+
+  def blocked?(request)
+    path = request.path
+    return false unless PROTECTED_PREFIXES.any? { |prefix| path.start_with?(prefix) }
+    return true if path.start_with?(SIDEKIQ_PREFIX) && ActiveModel::Type::Boolean.new.cast(ENV.fetch('SHAWKY_DISABLE_SIDEKIQ_WEB', false))
+
+    allowed_ips = Shawky::Config.super_admin_allowed_ips
+    allowed_ips.present? && allowed_ips.exclude?(request.remote_ip)
+  end
+
+  def not_found
+    [404, { 'Content-Type' => 'text/plain' }, ['Not Found']]
+  end
+end
+
+Rails.application.config.middleware.use ShawkyAdminIpAllowlist

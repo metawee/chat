@@ -46,3 +46,4 @@ class Conversations::PermissionFilterService
 end
 
 Conversations::PermissionFilterService.prepend_mod_with('Conversations::PermissionFilterService')
+Conversations::PermissionFilterService.prepend(Shawky::Patches::PermissionFilterService) # SHAWKY: agents see only conversations they work on

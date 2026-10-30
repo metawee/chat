@@ -8,3 +8,4 @@ class Api::V1::Accounts::Conversations::BaseController < Api::V1::Accounts::Base
     authorize @conversation, :show?
   end
 end
+Api::V1::Accounts::Conversations::BaseController.prepend(Shawky::Patches::ConversationWriteGuard) # SHAWKY: history conversations are read-only

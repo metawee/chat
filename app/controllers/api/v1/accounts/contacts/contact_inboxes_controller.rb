@@ -18,3 +18,4 @@ class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts:
     authorize @inbox, :show?
   end
 end
+Api::V1::Accounts::Contacts::ContactInboxesController.prepend(Shawky::Patches::ContactInboxesController) # SHAWKY: agents cannot start chats

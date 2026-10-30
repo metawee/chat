@@ -235,3 +235,4 @@ class ActionCableListener < BaseListener
 end
 
 ActionCableListener.prepend_mod_with('ActionCableListener')
+ActionCableListener.prepend(Shawky::Patches::ActionCableListener) # SHAWKY: realtime recipients follow access rules

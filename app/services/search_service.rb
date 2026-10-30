@@ -211,3 +211,4 @@ class SearchService
 end
 
 SearchService.prepend_mod_with('SearchService')
+SearchService.prepend(Shawky::Patches::SearchService) # SHAWKY: scoped search, no phone search

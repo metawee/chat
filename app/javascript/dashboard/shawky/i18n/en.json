@@ -1,0 +1,33 @@
+{
+  "SHAWKY": {
+    "SIDEBAR": "Shawky settings",
+    "REVEAL_PHONE": {
+      "BUTTON": "Show number",
+      "ERROR": "Could not show the number"
+    },
+    "SETTINGS": {
+      "HEADER": "Shawky settings",
+      "DESCRIPTION": "Phone number privacy and team supervisors.",
+      "LOADING": "Loading settings",
+      "SAVED": "Saved",
+      "ERROR": "Could not save, please try again",
+      "MASK_MODE": {
+        "TITLE": "Customer phone numbers",
+        "DESCRIPTION": "Numbers are masked for everyone. Administrators can reveal a number, and every reveal is recorded.",
+        "OPTIONS": {
+          "LAST3": "Show the last 3 digits",
+          "HIDDEN": "Hide completely"
+        }
+      },
+      "SUPERVISORS": {
+        "TITLE": "Team supervisors",
+        "DESCRIPTION": "A supervisor sees the conversations of their team, including unassigned ones in the team inboxes, and can reassign them.",
+        "TEAM": "Team",
+        "USER": "Supervisor",
+        "ADD": "Add supervisor",
+        "REMOVE": "Remove",
+        "EMPTY": "No supervisors yet"
+      }
+    }
+  }
+}

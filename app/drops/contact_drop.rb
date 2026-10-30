@@ -24,3 +24,4 @@ class ContactDrop < BaseDrop
     custom_attributes.transform_keys(&:to_s)
   end
 end
+ContactDrop.prepend(Shawky::Patches::ContactDrop) # SHAWKY: mask phone numbers in Liquid
