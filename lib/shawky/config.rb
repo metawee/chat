@@ -3,7 +3,8 @@ module Shawky::Config
   FLAGS = {
     phone_masking: 'SHAWKY_PHONE_MASKING',
     access_control: 'SHAWKY_ACCESS_CONTROL',
-    integrations_allowlist: 'SHAWKY_INTEGRATIONS_ALLOWLIST'
+    integrations_allowlist: 'SHAWKY_INTEGRATIONS_ALLOWLIST',
+    routing: 'SHAWKY_ROUTING'
   }.freeze
 
   MASK_MODES = %w[last3 hidden].freeze

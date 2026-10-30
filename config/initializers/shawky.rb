@@ -34,3 +34,11 @@ class ShawkyAdminIpAllowlist
 end
 
 Rails.application.config.middleware.use ShawkyAdminIpAllowlist
+
+Rack::Attack.throttle('shawky/hooks/ip', limit: 120, period: 1.minute) do |request|
+  request.ip if request.path.start_with?('/shawky/')
+end
+
+Rack::Attack.throttle('shawky/phone_reveal/ip', limit: 20, period: 1.minute) do |request|
+  request.ip if request.path.match?(%r{/shawky/contacts/\d+/phone\z})
+end

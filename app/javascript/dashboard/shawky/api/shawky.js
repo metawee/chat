@@ -18,6 +18,35 @@ class ShawkyAPI extends ApiClient {
     return axios.patch(`${this.url}/settings`, settings);
   }
 
+  getRouting() {
+    return axios.get(`${this.url}/routing`);
+  }
+
+  failback() {
+    return axios.post(`${this.url}/settings/failback`);
+  }
+
+  continueOnActiveNumber(conversationId) {
+    return axios.post(
+      `${this.url}/conversations/${conversationId}/continue_on_active_number`
+    );
+  }
+
+  getCrmUserMappings() {
+    return axios.get(`${this.url}/crm_user_mappings`);
+  }
+
+  addCrmUserMapping({ crmUserId, userId }) {
+    return axios.post(`${this.url}/crm_user_mappings`, {
+      crm_user_id: crmUserId,
+      user_id: userId,
+    });
+  }
+
+  removeCrmUserMapping(id) {
+    return axios.delete(`${this.url}/crm_user_mappings/${id}`);
+  }
+
   getTeamSupervisors() {
     return axios.get(`${this.url}/team_supervisors`);
   }

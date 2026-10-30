@@ -1,0 +1,12 @@
+en:
+  shawky:
+    mailers:
+      number_failover:
+        subject: 'WhatsApp: switched to the backup number'
+        body: 'The primary WhatsApp number stopped working, so new conversations now go out from the backup number. Reason:'
+        action: 'Open Shawky settings'
+    errors:
+      outside_messaging_window: 'The 24-hour window with this customer is closed. Send an approved template instead.'
+      no_active_number: 'No active WhatsApp number is configured.'
+    activities:
+      continued_on_number: 'Conversation continued on %{inbox_name}'

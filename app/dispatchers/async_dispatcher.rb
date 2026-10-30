@@ -25,3 +25,4 @@ class AsyncDispatcher < BaseDispatcher
 end
 
 AsyncDispatcher.prepend_mod_with('AsyncDispatcher')
+AsyncDispatcher.prepend(Shawky::Patches::AsyncDispatcher) # SHAWKY: failover, welcome message, routing

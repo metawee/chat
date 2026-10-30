@@ -7,7 +7,7 @@
     },
     "SETTINGS": {
       "HEADER": "Shawky settings",
-      "DESCRIPTION": "Phone number privacy and team supervisors.",
+      "DESCRIPTION": "Phone privacy, WhatsApp numbers, CRM users and team supervisors.",
       "LOADING": "Loading settings",
       "SAVED": "Saved",
       "ERROR": "Could not save, please try again",
@@ -27,7 +27,38 @@
         "ADD": "Add supervisor",
         "REMOVE": "Remove",
         "EMPTY": "No supervisors yet"
+      },
+      "SAVE": "Save",
+      "NUMBERS": {
+        "TITLE": "WhatsApp numbers",
+        "DESCRIPTION": "If the primary number is banned or disconnected, new conversations switch to the backup number automatically and administrators get an email.",
+        "PRIMARY": "Primary number",
+        "BACKUP": "Backup number",
+        "ON_PRIMARY": "Using the primary number",
+        "ON_BACKUP": "Using the backup number",
+        "FAILBACK": "Switch back to the primary number"
+      },
+      "WELCOME": {
+        "TITLE": "Welcome message",
+        "DESCRIPTION": "Sent as a normal message when a new customer writes for the first time. Leave empty to turn it off.",
+        "PLACEHOLDER": "Welcome to Shawky Group! A consultant will reply shortly.",
+        "CRM_WAIT": "Seconds to wait for the CRM owner before round robin"
+      },
+      "CRM_USERS": {
+        "TITLE": "CRM users",
+        "DESCRIPTION": "Link each CRM user ID to a user here, so leads go to their CRM owner.",
+        "CRM_ID": "CRM user ID (e.g. U-77)",
+        "USER": "User",
+        "ADD": "Link"
       }
+    },
+    "WINDOW": {
+      "REMAINING": "Window: {hours}h {minutes}m left",
+      "CLOSED": "Window closed: template only"
+    },
+    "CONTINUE_ON_ACTIVE_NUMBER": {
+      "BUTTON": "Continue on the active number",
+      "ERROR": "Could not move the conversation"
     }
   }
 }

@@ -1,5 +1,6 @@
 # A Shawky account: one WhatsApp inbox, a sales team with a supervisor, and a customer
 # whose number shows up in every field Chatwoot stores it in.
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.shared_context 'with shawky world' do
   let(:customer_phone) { '+966542921507' }
   let(:account) { create(:account) }
@@ -8,6 +9,15 @@ RSpec.shared_context 'with shawky world' do
                               sync_templates: false, validate_provider_config: false)
   end
   let(:inbox) { whatsapp_channel.inbox }
+  let(:backup_channel) do
+    create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', phone_number: '+201212238888',
+                              sync_templates: false, validate_provider_config: false)
+  end
+  let(:backup_inbox) { backup_channel.inbox }
+  # Primary/backup routing as an administrator would configure it in Shawky settings.
+  let(:configure_routing) do
+    Shawky::Routing.new(account).update_settings('shawky_primary_inbox_id' => inbox.id, 'shawky_backup_inbox_id' => backup_inbox.id)
+  end
   let(:team) { create(:team, account: account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:supervisor) { create(:user, account: account, role: :agent) }
@@ -32,6 +42,7 @@ RSpec.shared_context 'with shawky world' do
   end
 end
 
+# rubocop:enable RSpec/MultipleMemoizedHelpers
 # The subscriber part of the number must not appear in any formatting.
 RSpec::Matchers.define :leak_phone do |phone|
   match do |body|

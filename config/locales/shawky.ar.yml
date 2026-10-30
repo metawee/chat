@@ -1,0 +1,12 @@
+ar:
+  shawky:
+    mailers:
+      number_failover:
+        subject: 'واتساب: تم التحويل إلى الرقم الاحتياطي'
+        body: 'توقف رقم واتساب الأساسي عن العمل، لذلك تخرج المحادثات الجديدة الآن من الرقم الاحتياطي. السبب:'
+        action: 'فتح إعدادات شوقي'
+    errors:
+      outside_messaging_window: 'انتهت نافذة الـ 24 ساعة مع هذا العميل. أرسل قالبًا معتمدًا بدلًا من ذلك.'
+      no_active_number: 'لا يوجد رقم واتساب نشط.'
+    activities:
+      continued_on_number: 'تم استكمال المحادثة على %{inbox_name}'

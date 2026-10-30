@@ -103,3 +103,4 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 end
 
 Api::V1::Accounts::Conversations::MessagesController.prepend_mod_with('Api::V1::Accounts::Conversations::MessagesController')
+Api::V1::Accounts::Conversations::MessagesController.prepend(Shawky::Patches::MessagesController) # SHAWKY: 24h window

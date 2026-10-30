@@ -92,3 +92,9 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# SHAWKY: Shawky Group periodic work (number health/failover, later phases)
+shawky_scheduled_jobs_job:
+  cron: '*/5 * * * *'
+  class: 'Shawky::ScheduledJobsJob'
+  queue: scheduled_jobs

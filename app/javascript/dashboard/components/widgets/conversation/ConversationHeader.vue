@@ -9,6 +9,7 @@ import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ConversationCallButton from './ConversationCallButton.vue';
+import ConversationNumberBar from 'dashboard/shawky/components/ConversationNumberBar.vue'; // SHAWKY
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -181,6 +182,8 @@ const copyConversationId = async () => {
     <div
       class="flex flex-row items-center justify-start xl:justify-end flex-shrink-0 gap-2 w-full xl:w-auto header-actions-wrap"
     >
+      <!-- SHAWKY: 24h window countdown and continue on the active number -->
+      <ConversationNumberBar :chat="currentChat" />
       <SLACardLabel
         v-if="hasSlaPolicyId"
         :chat="chat"
