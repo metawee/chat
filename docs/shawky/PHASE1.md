@@ -25,6 +25,7 @@ All of them are on by default. See `.env.example` for:
 - `SHAWKY_ALLOWED_INTEGRATIONS`
 - `SHAWKY_SUPER_ADMIN_ALLOWED_IPS`
 - `SHAWKY_DISABLE_SIDEKIQ_WEB`
+- `SHAWKY_UNMASKED_WEBHOOK_HOSTS`: signed account webhooks to these HTTPS hosts (n8n) receive full numbers. Unsigned automation and macro webhooks, agent bots and every other host stay masked.
 
 The mask mode (`last3` or `hidden`) is an account setting, and admins change it from **Settings → Shawky settings**.
 

@@ -22,6 +22,10 @@ module Shawky::Config
     ENV.fetch('SHAWKY_ALLOWED_INTEGRATIONS', 'webhook').split(',').map(&:strip)
   end
 
+  def self.unmasked_webhook_hosts
+    ENV.fetch('SHAWKY_UNMASKED_WEBHOOK_HOSTS', '').split(',').map(&:strip).compact_blank
+  end
+
   def self.super_admin_allowed_ips
     ENV.fetch('SHAWKY_SUPER_ADMIN_ALLOWED_IPS', '').split(',').map(&:strip).compact_blank
   end

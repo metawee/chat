@@ -6,14 +6,33 @@ RSpec.describe Shawky::PayloadMasker, :shawky do
   include_context 'with shawky world'
 
   describe 'webhooks' do
-    it 'masks phone numbers in webhook payloads' do
-      sent_body = nil
-      allow(SafeFetch).to receive(:fetch) { |_url, **options| sent_body = options[:body] }
+    let(:payload) { conversation.webhook_data.merge(event: 'conversation_updated') }
+    let(:sent_bodies) { [] }
 
-      Webhooks::Trigger.execute('https://n8n.example.com/hook', conversation.webhook_data.merge(event: 'conversation_updated'), :account_webhook)
+    before { allow(SafeFetch).to receive(:fetch) { |_url, **options| sent_bodies << options[:body] } }
 
-      expect(sent_body).to include('conversation_updated')
-      expect(sent_body).not_to leak_phone(customer_phone)
+    around { |example| ClimateControl.modify(SHAWKY_UNMASKED_WEBHOOK_HOSTS: 'n8n.cws.social') { example.run } }
+
+    it 'masks phone numbers for ordinary webhook targets' do
+      Webhooks::Trigger.execute('https://example.com/hook', payload, :account_webhook, secret: 's3cret')
+
+      expect(sent_bodies.last).to include('conversation_updated')
+      expect(sent_bodies.last).not_to leak_phone(customer_phone)
+    end
+
+    it 'sends the full number to the signed n8n webhook' do
+      Webhooks::Trigger.execute('https://n8n.cws.social/webhook/chatwoot', payload, :account_webhook, secret: 's3cret')
+
+      expect(sent_bodies.last).to leak_phone(customer_phone)
+    end
+
+    it 'keeps masking unsigned, non-HTTPS or non-account webhooks to the n8n host' do
+      Webhooks::Trigger.execute('https://n8n.cws.social/webhook/chatwoot', payload, :account_webhook)
+      Webhooks::Trigger.execute('http://n8n.cws.social/webhook/chatwoot', payload, :account_webhook, secret: 's3cret')
+      Webhooks::Trigger.execute('https://n8n.cws.social/webhook/chatwoot', payload, :agent_bot_webhook, secret: 's3cret')
+
+      expect(sent_bodies.size).to eq(3)
+      sent_bodies.each { |body| expect(body).not_to leak_phone(customer_phone) }
     end
   end
 
