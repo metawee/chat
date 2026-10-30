@@ -99,22 +99,75 @@
   - صفحة weekly score.
 - **Phase 6:** docker-compose production + Caddy + backups + health + الـ runbook بالعربي + الـ branding + اللغة العربية افتراضية.
 
-## 4. أسئلة محتاج ردك عليها قبل ما أبدأ
+## 4. القرارات المعتمدة (من العميل)
 
-1. **الـ agent:** هل يشوف **المحادثات المتعيّنة له بس**؟ ولا كمان المحادثات اللي اتعمله فيها mention أو participant؟ والمحادثات الـ unassigned، مين يشوفها؟ (اقتراحي: الـ supervisor والأدمن بس.)
-2. **نطاق الـ supervisor:** أنهي واحد من دول؟
-   - (أ) المحادثات المتعيّنة لأعضاء فريقه
-   - (ب) المحادثات اللي `team_id` بتاعها فريقه
-   - (ج) الاتنين
-   
-   وهل يشوف الـ unassigned في الـ inboxes بتاعة فريقه؟
-3. **الـ supervisor والأرقام:** يشوف الرقم masked زي الـ agent؟ (المواصفات بتقول إن الأدمن بس هو اللي يشوف الرقم الكامل.)
-4. **الأدمن والـ audit:** المواصفات بتطلب تسجيل "كل مرة الأدمن يشوف رقم كامل". لو الأدمن بيشوف الرقم دايماً، هيبقى عندنا log على كل request. **اقتراحي:** الأدمن كمان يشوف masked افتراضياً، وفيه زرار "إظهار الرقم" يسجّل في الـ audit. ولا تفضّل إن الأدمن يشوف الرقم دايماً ونسجّل بس الـ exports وصفحة الـ contact؟
-5. **تاريخ العميل في الرقمين (R1):** لما العميل يبقى متعيّن لـ agent، هل الـ agent يشوف **كل** محادثات العميل القديمة (حتى اللي كانت مع agent تاني) read-only؟ ولا محادثاته هو بس؟
-6. **صفحة الـ Contacts للـ agent:** نخفيها خالص، ولا تظهر بالـ contacts بتوعه بس؟ وهل مسموح للـ agent يبدأ محادثة جديدة بإنه يكتب رقم بإيده؟ (ده بيكشف إن الرقم موجود عندنا. اقتراحي: لأ، المحادثات الجديدة تتفتح من زرار الـ CRM بس.)
-7. **تعديل بيانات الـ contact:** الـ agent يقدر يعدّل الاسم والـ custom attributes بس، والرقم والـ identifier للأدمن بس. موافق؟
-8. **التحويل لزميل:** الإعداد الافتراضي مسموح ولا ممنوع؟ ولو مسموح، مسموح لأي agent في الفريق ولا لأي حد؟
-9. **التخزين (R7، فيه تكلفة):** هنستخدم أنهي S3 provider؟ AWS S3، ولا Cloudflare R2، ولا MinIO على نفس السيرفر؟ وكام مدة الاحتفاظ بالميديا؟
-10. **السيرفر (Phase 6، فيه تكلفة):** فيه سيرفر محدد أنشر عليه (مواصفات ومزوّد)؟ الحد الأدنى المقترح 4 vCPU و 8GB RAM.
+| # | القرار |
+|---|---|
+| 1 | الـ agent يشوف **المحادثات المتعيّنة له بس**. الـ mention والـ participant **مش** بيدّوا أي صلاحية. المحادثات الـ unassigned يشوفها الـ supervisor والأدمن بس. |
+| 2 | الـ supervisor يشوف: (أ) المحادثات المتعيّنة لأعضاء فرقه، و (ب) المحادثات اللي `team_id` بتاعها أحد فرقه، و (ج) الـ unassigned في inboxes فرقه. التعريف: أي inbox فيه عضو من الفريق كـ inbox member. |
+| 3 | الـ supervisor يشوف الرقم masked. |
+| 4 | **الكل شايف masked، حتى الأدمن.** الأدمن عنده زرار "إظهار الرقم"، وبيتسجّل في `shawky_audit_logs`. أي export بيتسجّل كمان. |
+| 5 | لما العميل يتعيّن لـ agent، الـ agent يشوف المحادثات القديمة للعميل ده **قراءة بس**، بما فيها المحادثات اللي كانت مع agents تانيين وفي الـ inbox التاني. |
+| 6 | صفحة الـ Contacts للـ agent بتظهر بالعملاء بتوعه بس. **ممنوع** الـ agent يعمل contact أو محادثة جديدة برقم بإيده. المحادثات الجديدة بتتفتح من زرار الـ CRM أو لما العميل يبعت. الـ supervisor والأدمن مسموح لهم. |
+| 7 | الـ agent يعدّل الاسم والـ custom attributes بس. الرقم والـ identifier والـ email للأدمن بس. |
+| 8 | التحويل مسموح لزميل في نفس الفريق بس. الـ supervisor يحوّل لأي حد. كل تحويل بيتسجّل في الـ audit. |
+| 9 | التخزين على **Cloudflare R2** (S3-compatible). الاحتفاظ طول مدة العقد، والمسح بعد انتهائه بـ 30 يوم (بالـ purge job). |
+| 10 | السيرفر لسه هيتحدد. نبدأ على staging. **ملاحظة قانونية:** قانون حماية البيانات المصري 151/2020 بيقيّد نقل البيانات الشخصية لبره مصر، فلازم مراجعة محامي قبل ما نختار سيرفر أو R2 region بره مصر. |
 
-أي حاجة في الخطة مش متوافقة مع شغلكم قولّي، وأنا هعدّلها قبل ما نبدأ Phase 1.
+**سؤال مفتوح:** العميل الجديد اللي بيبعت من رقم مش معروف، هل يتبعت للـ CRM كـ lead جديد؟ (برّه النطاق دلوقتي، بس محتاجين نعرف القرار.)
+
+## 5. الإضافات المعتمدة
+
+### Phase 0 (قبل أي تطوير)
+- Chatwoot v4.19.1 **من غير أي تعديل** على سيرفر staging، ومربوط برقم واتساب تجريبي.
+- نتأكد إن الإرسال والاستقبال والميديا والـ templates شغّالين، علشان نكتشف مشاكل إعدادات Meta بدري.
+- الملفات في `deployment/shawky/staging/`، ومعاها checklist بالعربي.
+
+### أماكن تسريب إضافية (اتضافت لـ Phase 1)
+- `/monitoring/sidekiq`: الـ job args فيها payloads بتاعة واتساب بالأرقام. هي متقفلة أصلاً بـ `authenticated :super_admin`. هنضيف عليها IP allowlist (`SHAWKY_SUPER_ADMIN_ALLOWED_IPS`)، **وكمان ممكن تتقفل خالص في production** (`SHAWKY_DISABLE_SIDEKIQ_WEB=true`).
+- `/super_admin`: لـ CWS بس، ومن IPs محددة (نفس الـ allowlist).
+- **التكاملات** (Slack و Dialogflow و Dashboard Apps و Linear و Notion و Shopify، إلخ): الـ apps بتتقفل كلها ما عدا الموجودة في allowlist (`SHAWKY_ALLOWED_INTEGRATIONS`، والافتراضي `webhook`). وإعدادها للأدمن بس، زي ما هو في الكود دلوقتي.
+- **ملفات CSV:** CSAT download فيه `contact_phone_number` و `contact_name`، والاتنين هيبقوا masked. تقارير الـ agents/inbox/teams مافيهاش بيانات contacts.
+- **تطبيق الموبايل:** بيستخدم نفس `api/v1` بنفس الـ token headers. هنعمل spec بيتأكد إن الطلبات بالـ access-token headers بتاعة الموبايل (`access-token`/`client`/`uid` و `api_access_token`) بترجع masked.
+
+### تصميم الـ masking (معدّل بعد قرار 4)
+الكل شايف masked، فالـ masking بقى **بالقيمة مش بالدور**:
+- `Shawky::PayloadMasker` بيعدّي على أي JSON بشكل deep، وأي string **شكله رقم تليفون** بيتعمله mask، في أي key ما عدا `content` و `processed_message_content` (اللي العميل كتبه). وكمان المفاتيح المعروفة (`phone_number` و `identifier` و `source_id` و `wa_id`) بتتعمل mask حسب القيمة.
+- **نقط التطبيق:**
+  1. `after_action` في الـ API controllers المصادق عليها لـ users، وده بيغطي كل endpoints `api/v1` و `api/v2` حتى اللي ممكن ننساها.
+  2. `ActionCableBroadcastJob`، وده بيغطي كل الأحداث.
+  3. `Webhooks::Trigger` للـ targets اللي مش في allowlist الـ webhooks الإدارية.
+  4. `ContactDrop` (Liquid).
+  5. الـ notifications (push/email).
+  6. CSAT CSV.
+  7. `filter_parameters` للـ logs.
+- **الـ reveal:** `GET /api/v1/accounts/:id/shawky/contacts/:contact_id/phone`، للأدمن بس، وبيتسجّل في الـ audit، وعليه rate limit.
+- قيم الـ masked زي `•••••••507` مش ممكن تترجع للسيرفر كأنها رقم. ولما الأدمن أو الـ supervisor يعمل محادثة جديدة من صفحة الـ contact، السيرفر بيحسب الـ `source_id` بنفسه.
+
+### R9 معدّل (من غير ما نقرا `cw_d_session_info`)
+1. `GET /chat?code=…`: بيتحقق من الشكل، وبيحفظ الكود في **encrypted cookie** (`httpOnly`، `Secure`، `SameSite=Lax`، مدتها 60 ثانية، `path=/`)، وبيعمل redirect 302 لـ `/app/shawky/crm-launch` من غير query، ومعاه `Referrer-Policy: no-referrer`.
+2. صفحة الـ dashboard دي (Vue) بتعمل login عادي لو محتاج. Chatwoot بيرجع للصفحة بعد الـ login. وبعدين بتنادي `POST /api/v1/shawky/crm_launch` بالـ auth العادي.
+3. الـ API بيقرا الكود من الـ cookie ويمسحها فوراً (single-use)، وبعدها resolve موقّع، وربط الـ user، وفتح أو إنشاء المحادثة. وبيرجّع `{account_id, conversation_id, needs_template}` بس.
+
+### الملكية والتعيين
+- **جاي من زرار الـ CRM:** بيتعيّن للـ agent المسؤول في الـ CRM (`agent.id` → mapping)، ومش بيعدّي على الـ round robin.
+- **رسالة من رقم مش معروف:** round robin.
+- **عميل راجع:** نفس الـ agent لو لسه active، وإلا round robin.
+
+### مسح بيانات الأكونت (متطلب في العقد)
+- `bundle exec rails shawky:purge_account[ACCOUNT_ID]` + `Shawky::AccountPurgeJob`.
+- بيمسح الـ contacts والمحادثات والرسايل والـ attachments (من R2 كمان) والـ audit logs والـ webhooks.
+- الأمر بيطلب تأكيد بكتابة اسم الأكونت، وبيطلع تقرير بالعدد اللي اتمسح.
+- مكانه في Phase 4.
+
+## 6. ترتيب التنفيذ المحدّث
+
+| Phase | المحتوى |
+|---|---|
+| 0 | staging من غير تعديل + رقم تجريبي (محتاج سيرفر وحساب Meta من العميل) |
+| 1 | الـ masking والأدوار والصلاحيات والأماكن الإضافية + audit log |
+| 2 | R1 و R3 و R6 |
+| 3 | R9 (بالـ cookie) + activity webhook + mock CRM |
+| 4 | R4 و R5 و R7 + purge job |
+| 5 | R8 |
+| 6 | deployment production و branding و runbook |
