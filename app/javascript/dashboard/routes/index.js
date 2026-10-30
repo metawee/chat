@@ -13,9 +13,11 @@ import {
   requiresShopifyBilling,
 } from 'v3/helpers/AuthHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
+import shawkyRoutes from 'dashboard/shawky/routes'; // SHAWKY
+import { installCrmLaunchResume } from 'dashboard/shawky/crmLaunchResume'; // SHAWKY
 
 const ONBOARDING_STEPS = ['account_details', 'enrichment', 'inbox_setup'];
-const routes = [...dashboard.routes];
+const routes = [...dashboard.routes, ...shawkyRoutes.routes]; // SHAWKY: CRM launch page
 
 const onboardingPath = step =>
   step === 'inbox_setup' ? 'onboarding/inbox-setup' : 'onboarding';
@@ -173,6 +175,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
 
 export const initalizeRouter = () => {
   const userAuthentication = store.dispatch('setUser');
+  installCrmLaunchResume(router); // SHAWKY: resume a CRM launch after login
 
   router.beforeEach(async (to, _from, next) => {
     AnalyticsHelper.page(to.name || '', {

@@ -4,6 +4,7 @@ class Shawky::EventListener < BaseListener
   # message rather than a marketing template.
   def message_created(event)
     message = event.data[:message]
+    track_crm_reply(message)
     return unless Shawky::Config.enabled?(:routing) && message.incoming?
 
     conversation = message.conversation
@@ -12,6 +13,12 @@ class Shawky::EventListener < BaseListener
     return unless conversation.contact.conversations.one? && conversation.messages.incoming.one?
 
     send_welcome(conversation, routing.welcome_message)
+  end
+
+  def conversation_resolved(event)
+    return unless Shawky::Config.enabled?(:crm)
+
+    Shawky::CrmActivity.track_resolved(event.data[:conversation])
   end
 
   def message_updated(event)
@@ -28,6 +35,12 @@ class Shawky::EventListener < BaseListener
   end
 
   private
+
+  def track_crm_reply(message)
+    return unless Shawky::Config.enabled?(:crm) && message.outgoing? && !message.private? && message.sender.is_a?(User)
+
+    Shawky::CrmActivity.track_reply(message)
+  end
 
   def send_welcome(conversation, content)
     conversation.reload.with_lock do

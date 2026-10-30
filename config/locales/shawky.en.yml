@@ -10,3 +10,13 @@ en:
       no_active_number: 'No active WhatsApp number is configured.'
     activities:
       continued_on_number: 'Conversation continued on %{inbox_name}'
+    crm_launch:
+      title: 'Shawky WhatsApp'
+      back: 'Go to the dashboard'
+      errors:
+        disabled: 'Opening chats from the CRM is turned off.'
+        invalid_code: 'This link is not valid. Open the chat again from the CRM.'
+        expired_code: 'This link has expired or was already used. Press the WhatsApp button in the CRM again.'
+        rate_limited: 'Too many attempts. Wait a minute and try again from the CRM.'
+        unknown_agent: 'The CRM user of this lead is not linked to a user here. Ask an administrator to link them in Shawky settings.'
+        crm_unavailable: 'The CRM did not respond. Try again in a moment.'

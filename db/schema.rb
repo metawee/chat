@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_30_194917) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_30_203255) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1644,6 +1644,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_30_194917) do
     t.index ["account_id"], name: "index_shawky_audit_logs_on_account_id"
     t.index ["auditable_type", "auditable_id"], name: "index_shawky_audit_logs_on_auditable"
     t.index ["user_id"], name: "index_shawky_audit_logs_on_user_id"
+  end
+
+  create_table "shawky_crm_activities", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "event_id", null: false
+    t.string "kind", null: false
+    t.string "status", default: "pending", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.integer "attempts", default: 0, null: false
+    t.string "last_error"
+    t.datetime "delivered_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shawky_crm_activities_on_account_id"
+    t.index ["conversation_id", "kind", "created_at"], name: "idx_on_conversation_id_kind_created_at_3426dfb188"
+    t.index ["conversation_id"], name: "index_shawky_crm_activities_on_conversation_id"
+    t.index ["event_id"], name: "index_shawky_crm_activities_on_event_id", unique: true
   end
 
   create_table "shawky_crm_user_mappings", force: :cascade do |t|

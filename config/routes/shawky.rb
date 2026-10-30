@@ -16,11 +16,15 @@ namespace :api, defaults: { format: 'json' } do
             post :failback
           end
           resource :routing, only: [:show], controller: 'routing'
+          resource :crm_launch, only: [:show, :create]
         end
       end
     end
   end
 end
+
+get 'chat', to: 'shawky/crm_launches#show'
+mount Shawky::MockCrm, at: '/mock_crm' if ActiveModel::Type::Boolean.new.cast(ENV.fetch('SHAWKY_MOCK_CRM', false))
 
 namespace :shawky do
   namespace :hooks do

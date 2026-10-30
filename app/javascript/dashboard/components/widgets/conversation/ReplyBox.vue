@@ -617,6 +617,9 @@ export default {
     this.$store.dispatch('draftMessages/setReplyEditorMode', {
       mode: this.effectiveReplyMode,
     });
+    // SHAWKY: a CRM launch outside the 24h window opens the template picker
+    if (this.$route?.query?.shawky_open_templates)
+      this.openWhatsappTemplateModal();
     this.switchDraftContext(
       this.conversationIdByRoute,
       this.effectiveReplyMode

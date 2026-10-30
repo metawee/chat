@@ -4,7 +4,8 @@ module Shawky::Config
     phone_masking: 'SHAWKY_PHONE_MASKING',
     access_control: 'SHAWKY_ACCESS_CONTROL',
     integrations_allowlist: 'SHAWKY_INTEGRATIONS_ALLOWLIST',
-    routing: 'SHAWKY_ROUTING'
+    routing: 'SHAWKY_ROUTING',
+    crm: 'SHAWKY_CRM_INTEGRATION'
   }.freeze
 
   MASK_MODES = %w[last3 hidden].freeze

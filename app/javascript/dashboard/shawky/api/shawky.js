@@ -47,6 +47,14 @@ class ShawkyAPI extends ApiClient {
     return axios.delete(`${this.url}/crm_user_mappings/${id}`);
   }
 
+  getCrmLaunch() {
+    return axios.get(`${this.url}/crm_launch`);
+  }
+
+  completeCrmLaunch() {
+    return axios.post(`${this.url}/crm_launch`);
+  }
+
   getTeamSupervisors() {
     return axios.get(`${this.url}/team_supervisors`);
   }

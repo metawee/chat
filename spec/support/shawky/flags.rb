@@ -1,6 +1,6 @@
 # Shawky features are on in production. Upstream specs run with them off so they keep
 # asserting upstream behaviour; specs tagged `shawky: true` run with them on.
-SHAWKY_FLAG_KEYS = %w[SHAWKY_PHONE_MASKING SHAWKY_ACCESS_CONTROL SHAWKY_INTEGRATIONS_ALLOWLIST SHAWKY_ROUTING].freeze
+SHAWKY_FLAG_KEYS = %w[SHAWKY_PHONE_MASKING SHAWKY_ACCESS_CONTROL SHAWKY_INTEGRATIONS_ALLOWLIST SHAWKY_ROUTING SHAWKY_CRM_INTEGRATION].freeze
 
 RSpec.configure do |config|
   config.around do |example|

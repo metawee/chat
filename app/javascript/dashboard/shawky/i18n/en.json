@@ -59,6 +59,16 @@
     "CONTINUE_ON_ACTIVE_NUMBER": {
       "BUTTON": "Continue on the active number",
       "ERROR": "Could not move the conversation"
+    },
+    "CRM_LAUNCH": {
+      "OPENING": "Opening the WhatsApp chat…",
+      "ERROR_TITLE": "Could not open the chat",
+      "ERRORS": {
+        "EXPIRED": "This CRM link has expired. Press the WhatsApp button in the CRM again.",
+        "NOT_ALLOWED": "This lead belongs to another sales agent. Only their agent or supervisor can open it.",
+        "INVALID_LEAD": "The CRM did not send a valid WhatsApp number for this lead.",
+        "UNKNOWN": "Something went wrong. Try again from the CRM."
+      }
     }
   }
 }
