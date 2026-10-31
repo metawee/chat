@@ -1,5 +1,5 @@
 # Called by n8n after it looked the WhatsApp number up in the CRM (creating the lead if needed).
-# Body: { account_id, conversation_id (display id), crm_agent_id, lead: { lead_id, project, ... } }
+# Body: { account_id, conversation_id (display id), lead: { lead_id, salesman, name, project, ... } }
 class Shawky::Hooks::N8nController < ActionController::API
   before_action :verify_signature
 
@@ -9,7 +9,7 @@ class Shawky::Hooks::N8nController < ActionController::API
     lead = payload.fetch('lead').to_h
     return render json: { error: 'lead.lead_id is required' }, status: :unprocessable_entity if lead['lead_id'].blank?
 
-    conversation = Shawky::CrmOwnerAssignment.new(conversation: conversation, lead: lead, crm_agent_id: payload['crm_agent_id']).perform
+    conversation = Shawky::CrmOwnerAssignment.new(conversation: conversation, lead: lead).perform
     render json: { conversation_id: conversation.display_id, assignee_id: conversation.assignee_id }
   rescue KeyError, JSON::ParserError, TypeError => e
     render json: { error: e.message }, status: :unprocessable_entity

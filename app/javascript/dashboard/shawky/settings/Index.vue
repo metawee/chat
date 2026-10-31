@@ -133,7 +133,7 @@ const failback = async () => {
 const addCrmMapping = async () => {
   try {
     await ShawkyAPI.addCrmUserMapping({
-      crmUserId: newCrmUserId.value.trim(),
+      crmUsername: newCrmUserId.value.trim(),
       userId: newCrmMappedUserId.value,
     });
     newCrmUserId.value = '';
@@ -361,7 +361,7 @@ const removeSupervisor = async id => {
               class="flex items-center justify-between gap-4 py-3"
             >
               <span class="text-body-main text-n-slate-12">
-                {{ row.crm_user_id }} — {{ row.userName }}
+                {{ row.crm_username }} — {{ row.userName }}
               </span>
               <NextButton
                 :label="t('SHAWKY.SETTINGS.SUPERVISORS.REMOVE')"

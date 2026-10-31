@@ -26,7 +26,8 @@ namespace :api, defaults: { format: 'json' } do
   end
 end
 
-get 'chat', to: 'shawky/crm_launches#show'
+get 'shawky/launch', to: 'shawky/launches#show'
+mount Shawky::MockGateway, at: '/mock_gateway' if ActiveModel::Type::Boolean.new.cast(ENV.fetch('SHAWKY_MOCK_GATEWAY', false))
 mount Shawky::MockCrm, at: '/mock_crm' if ActiveModel::Type::Boolean.new.cast(ENV.fetch('SHAWKY_MOCK_CRM', false))
 
 namespace :shawky do

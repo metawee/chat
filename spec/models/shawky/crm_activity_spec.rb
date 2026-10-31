@@ -7,8 +7,8 @@ RSpec.describe Shawky::CrmActivity, :shawky do
   let(:listener) { Shawky::EventListener.instance }
 
   before do
-    Shawky::CrmUserMapping.create!(account: account, crm_user_id: 'U-77', user: agent)
-    contact.update!(custom_attributes: { 'lead_id' => 'L-104582' })
+    Shawky::CrmUserMapping.create!(account: account, crm_username: 'rawda', user: agent)
+    contact.update!(custom_attributes: { 'crm_lead_id' => 'L-104582' })
   end
 
   def agent_reply(content = 'أهلاً يا فندم')
@@ -22,7 +22,7 @@ RSpec.describe Shawky::CrmActivity, :shawky do
     activity = described_class.last
     expect(activity).to be_delivered
     expect(Shawky::MockCrm.activities).to contain_exactly(
-      a_hash_including('event_id' => activity.event_id, 'lead_id' => 'L-104582', 'agent_id' => 'U-77', 'type' => 'whatsapp',
+      a_hash_including('event_id' => activity.event_id, 'lead_id' => 'L-104582', 'agent_id' => 'rawda', 'type' => 'whatsapp',
                        'direction' => 'outbound', 'status' => 'sent', 'duration_sec' => nil, 'summary' => nil, 'recording_url' => nil)
     )
     expect(Shawky::MockCrm.activities.first['started_at']).to match(/\+0[23]:00\z/)

@@ -46,8 +46,8 @@
       },
       "CRM_USERS": {
         "TITLE": "CRM users",
-        "DESCRIPTION": "Link each CRM user ID to a user here, so leads go to their CRM owner.",
-        "CRM_ID": "CRM user ID (e.g. U-77)",
+        "DESCRIPTION": "Link each CRM salesman username to a user here, so CRM launches and leads go to them.",
+        "CRM_ID": "CRM username (e.g. rawda)",
         "USER": "User",
         "ADD": "Link"
       },
@@ -71,7 +71,7 @@
       "ERROR_TITLE": "Could not open the chat",
       "ERRORS": {
         "EXPIRED": "This CRM link has expired. Press the WhatsApp button in the CRM again.",
-        "NOT_ALLOWED": "This lead belongs to another sales agent. Only their agent or supervisor can open it.",
+        "NOT_ALLOWED": "This customer is not assigned to you.",
         "INVALID_LEAD": "The CRM did not send a valid WhatsApp number for this lead.",
         "UNKNOWN": "Something went wrong. Try again from the CRM."
       }

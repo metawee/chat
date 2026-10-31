@@ -10,8 +10,8 @@ RSpec.describe 'Shawky n8n CRM owner hook', :shawky, type: :request do
     create(:conversation, account: account, inbox: inbox, contact: new_contact, contact_inbox: contact_inbox, assignee: nil)
   end
   let(:body) do
-    { account_id: account.id, conversation_id: lead_conversation.display_id, crm_agent_id: 'U-77',
-      lead: { lead_id: 'L-104582', project: 'طنطا', area_sqm: 120, phone: 'ignored' } }.to_json
+    { account_id: account.id, conversation_id: lead_conversation.display_id,
+      lead: { lead_id: 'L-104582', salesman: 'rawda', project: 'طنطا', area: '120', phone: 'ignored' } }.to_json
   end
 
   around { |example| ClimateControl.modify(SHAWKY_N8N_SECRET: secret) { example.run } }
@@ -19,7 +19,7 @@ RSpec.describe 'Shawky n8n CRM owner hook', :shawky, type: :request do
   before do
     configure_routing
     inbox.update!(enable_auto_assignment: true)
-    Shawky::CrmUserMapping.create!(account: account, crm_user_id: 'U-77', user: agent)
+    Shawky::CrmUserMapping.create!(account: account, crm_username: 'rawda', user: agent)
     allow(OnlineStatusTracker).to receive(:get_available_users).and_return(teammate.id.to_s => 'online')
   end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Shawky n8n CRM owner hook', :shawky, type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(lead_conversation.reload.assignee).to eq(agent)
-    expect(new_contact.reload.custom_attributes).to include('lead_id' => 'L-104582', 'project' => 'طنطا', 'area_sqm' => 120)
+    expect(new_contact.reload.custom_attributes).to include('crm_lead_id' => 'L-104582', 'salesman' => 'rawda', 'project' => 'طنطا', 'area' => '120')
     expect(new_contact.custom_attributes).not_to have_key('phone')
   end
 
@@ -59,7 +59,7 @@ RSpec.describe 'Shawky n8n CRM owner hook', :shawky, type: :request do
   end
 
   it 'uses round robin when the CRM owner is not mapped' do
-    signed_post(JSON.parse(body).merge('crm_agent_id' => 'U-unknown').to_json)
+    signed_post(JSON.parse(body).tap { |payload| payload['lead']['salesman'] = 'unknown' }.to_json)
 
     expect(lead_conversation.reload.assignee).to eq(teammate)
   end

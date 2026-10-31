@@ -32,11 +32,11 @@ RSpec.describe 'Shawky numbers, settings and the 24-hour window', :shawky, type:
       post "#{base}/shawky/settings/failback", headers: agent.create_new_auth_token, as: :json
       expect(response).to have_http_status(:unauthorized)
 
-      post "#{base}/shawky/crm_user_mappings", headers: agent.create_new_auth_token, as: :json, params: { crm_user_id: 'U-1', user_id: agent.id }
+      post "#{base}/shawky/crm_user_mappings", headers: agent.create_new_auth_token, as: :json, params: { crm_username: 'rawda', user_id: agent.id }
       expect(response).to have_http_status(:unauthorized)
 
-      post "#{base}/shawky/crm_user_mappings", headers: admin.create_new_auth_token, as: :json, params: { crm_user_id: 'U-1', user_id: agent.id }
-      expect(Shawky::CrmUserMapping.user_for(account, 'U-1')).to eq(agent)
+      post "#{base}/shawky/crm_user_mappings", headers: admin.create_new_auth_token, as: :json, params: { crm_username: 'rawda', user_id: agent.id }
+      expect(Shawky::CrmUserMapping.user_for(account, 'rawda')).to eq(agent)
     end
 
     it 'tells every user which number is active' do

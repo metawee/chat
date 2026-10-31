@@ -118,7 +118,7 @@ RSpec.describe 'Shawky conversation and contact access', :shawky, type: :request
     end
 
     it 'searches by contact id and CRM lead id for agents' do
-      contact.update!(custom_attributes: { 'lead_id' => 'L-104582' })
+      contact.update!(custom_attributes: { 'crm_lead_id' => 'L-104582' })
 
       get "#{base}/contacts/search", headers: agent.create_new_auth_token, params: { q: 'L-104582' }, as: :json
       expect(response.parsed_body['payload'].pluck('id')).to eq([contact.id])

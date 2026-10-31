@@ -16,7 +16,7 @@ class Api::V1::Accounts::Shawky::FollowUpsController < Api::V1::Accounts::BaseCo
   def follow_up_json(conversation, last_agent_message_at)
     {
       id: conversation.display_id, status: conversation.status, inbox_id: conversation.inbox_id,
-      contact_name: conversation.contact.name, lead_id: conversation.contact.custom_attributes['lead_id'],
+      contact_name: conversation.contact.name, lead_id: ::Shawky::Lead.id(conversation.contact),
       assignee: conversation.assignee&.slice(:id, :name), last_agent_message_at: last_agent_message_at&.to_i,
       created_at: conversation.created_at.to_i
     }

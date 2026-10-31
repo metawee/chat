@@ -43,7 +43,7 @@ class Shawky::ConversationRouter
   private
 
   def new_lead?
-    conversation.contact.conversations.where.not(id: conversation.id).none? && conversation.contact.custom_attributes['lead_id'].blank?
+    conversation.contact.conversations.where.not(id: conversation.id).none? && Shawky::Lead.id(conversation.contact).blank?
   end
 
   def await_crm_owner

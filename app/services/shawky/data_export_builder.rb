@@ -52,7 +52,7 @@ class Shawky::DataExportBuilder
     {
       id: conversation.display_id, created_at: conversation.created_at.iso8601, inbox: conversation.inbox.name,
       status: conversation.status, assignee: conversation.assignee&.name,
-      contact: { id: contact.id, name: contact.name, phone_number: contact.phone_number, lead_id: contact.custom_attributes['lead_id'],
+      contact: { id: contact.id, name: contact.name, phone_number: contact.phone_number, lead_id: Shawky::Lead.id(contact),
                  custom_attributes: contact.custom_attributes },
       messages: messages(conversation).map { |message| message_hash(message) }
     }

@@ -29,15 +29,15 @@ X-Shawky-Signature: sha256=<hex HMAC_SHA256(SHAWKY_N8N_SECRET, timestamp + "." +
 {
   "account_id": 1,
   "conversation_id": 42,          // display id from the webhook payload (conversation.id)
-  "crm_agent_id": "U-77",         // CRM owner; null if the CRM has none
-  "lead": { "lead_id": "L-104582", "status": "Fresh", "project": "طنطا", "channel": "شيفت نهار",
-            "site_state": "محاره", "area_sqm": 120, "property_type": "شقه" }
+  "lead": { "lead_id": "L-104582", "salesman": "rawda", "name": "زياد", "status": "Fresh",
+            "project": "طنطا", "channel": "شيفت نهار", "site_state": "محاره", "area": "120",
+            "created_at": "10/31/26, 5:21 PM", "cs_agent": "", "extra": { "any_crm_field": "value" } }
 }
 ```
 
 How Chatwoot handles it:
-- `lead.*` fields are stored as contact custom attributes. Other keys are ignored, and the phone number is never stored from this call.
-- If `crm_agent_id` is mapped to an active member of the inbox, the conversation goes to that user. The mapping is set in Settings → Shawky settings → CRM users. This also takes the lead back from round robin, as long as no agent has replied yet.
+- The lead has the same shape the Shawky gateway uses. Its fields are stored as contact custom attributes (`crm_lead_id`, `crm_name`, `salesman`, `project`, `status`, `channel`, `crm_created_at`, `site_state`, `area`, `cs_agent`, `crm_extra`). An empty value never replaces a filled one, and the phone number is never stored from this call.
+- If `lead.salesman` (the CRM username) is mapped to an active member of the inbox, the conversation goes to that user. The mapping is set in Settings → Shawky settings → CRM users. This also takes the lead back from round robin, as long as no agent has replied yet.
 - Otherwise the conversation goes to round robin.
 - The response is `200 {"conversation_id": 42, "assignee_id": 7}`.
 - Errors return `401` for a bad or old signature (±300s) and `422` for a missing `lead.lead_id` or a malformed body.

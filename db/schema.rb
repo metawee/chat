@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_30_210503) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_31_232141) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1667,10 +1667,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_30_210503) do
   create_table "shawky_crm_user_mappings", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "user_id", null: false
-    t.string "crm_user_id", null: false
+    t.string "crm_username", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "crm_user_id"], name: "index_shawky_crm_user_mappings_on_account_id_and_crm_user_id", unique: true
+    t.index ["account_id", "crm_username"], name: "index_shawky_crm_user_mappings_on_account_id_and_crm_username", unique: true
     t.index ["account_id"], name: "index_shawky_crm_user_mappings_on_account_id"
     t.index ["user_id"], name: "index_shawky_crm_user_mappings_on_user_id"
   end

@@ -1,14 +1,9 @@
-# Signed calls to the CRM (spec sent to the CRM company):
+# Signed activity calls to the CRM (spec sent to the CRM company). Launches go through the gateway.
 #   X-Shawky-Key-Id, X-Shawky-Timestamp, X-Shawky-Signature: sha256=HMAC(secret, timestamp + "." + raw_body)
 # Configured with SHAWKY_CRM_BASE_URL, SHAWKY_CRM_KEY_ID and SHAWKY_CRM_SECRET (env only, never logged).
 class Shawky::Crm::Client
-  RESOLVE_PATH = '/api/integrations/shawky/resolve'.freeze
   ACTIVITIES_PATH = '/api/integrations/shawky/activities'.freeze
   TIMEOUT = 10
-
-  def resolve(code)
-    post(RESOLVE_PATH, { code: code, action: 'whatsapp' })
-  end
 
   def post_activity(payload)
     post(ACTIVITIES_PATH, payload)

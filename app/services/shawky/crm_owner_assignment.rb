@@ -1,18 +1,18 @@
 # Applies what n8n learned from the CRM about a WhatsApp lead: stores the lead fields on
 # the contact and hands the conversation to the CRM owner. The CRM owner wins over round
 # robin as long as no agent has written to the customer yet.
+# The lead has the same shape as the gateway's (see Shawky::Lead); lead.salesman is the CRM owner.
 class Shawky::CrmOwnerAssignment
-  LEAD_ATTRIBUTES = %w[lead_id status project channel site_state area_sqm property_type].freeze
   REASSIGNABLE_ROUTING = [Shawky::ConversationRouter::AWAITING_CRM_OWNER, 'round_robin', 'round_robin_fallback'].freeze
 
-  pattr_initialize [:conversation!, :lead!, :crm_agent_id]
+  pattr_initialize [:conversation!, :lead!]
 
   def perform
     contact = conversation.contact
-    contact.update!(custom_attributes: contact.custom_attributes.merge(lead.slice(*LEAD_ATTRIBUTES)))
+    contact.update!(custom_attributes: Shawky::Lead.merge_into(contact.custom_attributes, lead))
 
     router = Shawky::ConversationRouter.new(conversation: conversation)
-    owner = Shawky::CrmUserMapping.user_for(conversation.account, crm_agent_id) if crm_agent_id.present?
+    owner = Shawky::CrmUserMapping.user_for(conversation.account, lead['salesman']) if lead['salesman'].present?
     if Shawky::ConversationRouter.active_agent?(owner, conversation)
       hand_to(owner, router) if reassignable?
     elsif router.awaiting_crm_owner?

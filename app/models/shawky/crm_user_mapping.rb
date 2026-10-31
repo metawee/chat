@@ -6,19 +6,19 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :bigint           not null
-#  crm_user_id :string           not null
+#  crm_username :string          not null
 #  user_id     :bigint           not null
 #
-# Maps a CRM user (agent.id in CRM payloads, e.g. "U-77") to a Chatwoot user.
+# Maps a CRM salesman username (lead.salesman from the gateway, e.g. "rawda") to a Chatwoot user.
 class Shawky::CrmUserMapping < ApplicationRecord
   belongs_to :account
   belongs_to :user
 
-  validates :crm_user_id, presence: true, uniqueness: { scope: :account_id }
+  validates :crm_username, presence: true, uniqueness: { scope: :account_id }
   validate :user_belongs_to_account
 
-  def self.user_for(account, crm_user_id)
-    find_by(account: account, crm_user_id: crm_user_id)&.user
+  def self.user_for(account, crm_username)
+    find_by(account: account, crm_username: crm_username)&.user
   end
 
   private

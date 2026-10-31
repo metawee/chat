@@ -42,6 +42,6 @@ describe('CrmLaunch', () => {
     const wrapper = mountPage();
     await flushPromises();
 
-    expect(wrapper.text()).toContain('belongs to another sales agent');
+    expect(wrapper.text()).toContain('This customer is not assigned to you.');
   });
 });

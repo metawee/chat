@@ -43,8 +43,8 @@ Rack::Attack.throttle('shawky/phone_reveal/ip', limit: 20, period: 1.minute) do 
   request.ip if request.path.match?(%r{/shawky/contacts/\d+/phone\z})
 end
 
-Rack::Attack.throttle('shawky/chat/ip', limit: 30, period: 1.minute) do |request|
-  request.ip if request.path == '/chat'
+Rack::Attack.throttle('shawky/launch/ip', limit: 30, period: 1.minute) do |request|
+  request.ip if request.path == '/shawky/launch'
 end
 
 # R7: attachment links (/rails/active_storage/...) stop working after this many hours, so a

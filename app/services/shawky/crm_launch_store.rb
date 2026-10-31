@@ -1,15 +1,15 @@
-# Holds a resolved CRM lead between GET /chat and the dashboard picking it up, so the
-# one-time code is spent at once and lead data (including the phone number) stays on
-# the server. The browser only gets a random token in an encrypted, httpOnly cookie.
+# Holds a lead claimed from the gateway between GET /shawky/launch and the dashboard picking
+# it up, so the one-time session is spent at once and lead data (including the phone number)
+# stays on the server. The browser only gets a random token in an encrypted, httpOnly cookie.
 module Shawky::CrmLaunchStore
   COOKIE = :shawky_crm_launch
   TTL = 5.minutes
 
   module_function
 
-  def put(account_id:, lead:)
+  def put(account_id:, lead:, session_id:)
     token = SecureRandom.urlsafe_base64(32)
-    Redis::Alfred.setex(key(token), { account_id: account_id, lead: lead }.to_json, TTL)
+    Redis::Alfred.setex(key(token), { account_id: account_id, lead: lead, session_id: session_id }.to_json, TTL)
     token
   end
 

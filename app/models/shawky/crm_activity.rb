@@ -50,8 +50,8 @@ class Shawky::CrmActivity < ApplicationRecord
   end
 
   def self.track(conversation, kind:, agent:, status:, started_at:)
-    lead_id = conversation.contact.custom_attributes['lead_id']
-    crm_agent_id = Shawky::CrmUserMapping.find_by(account: conversation.account, user: agent)&.crm_user_id if agent
+    lead_id = Shawky::Lead.id(conversation.contact)
+    crm_agent_id = Shawky::CrmUserMapping.find_by(account: conversation.account, user: agent)&.crm_username if agent
     return if lead_id.blank? || crm_agent_id.blank?
 
     event_id = "evt_#{SecureRandom.uuid}"

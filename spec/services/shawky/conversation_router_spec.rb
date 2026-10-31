@@ -45,7 +45,7 @@ RSpec.describe Shawky::ConversationRouter, :shawky do
   end
 
   it 'uses round robin straight away for a contact already known to the CRM' do
-    new_contact.update!(custom_attributes: { 'lead_id' => 'L-1' })
+    new_contact.update!(custom_attributes: { 'crm_lead_id' => 'L-1' })
 
     expect(new_conversation(new_contact).reload.assignee).to eq(teammate)
   end

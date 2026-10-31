@@ -36,9 +36,9 @@ class ShawkyAPI extends ApiClient {
     return axios.get(`${this.url}/crm_user_mappings`);
   }
 
-  addCrmUserMapping({ crmUserId, userId }) {
+  addCrmUserMapping({ crmUsername, userId }) {
     return axios.post(`${this.url}/crm_user_mappings`, {
-      crm_user_id: crmUserId,
+      crm_username: crmUsername,
       user_id: userId,
     });
   }

@@ -5,7 +5,8 @@ module Shawky::Config
     access_control: 'SHAWKY_ACCESS_CONTROL',
     integrations_allowlist: 'SHAWKY_INTEGRATIONS_ALLOWLIST',
     routing: 'SHAWKY_ROUTING',
-    crm: 'SHAWKY_CRM_INTEGRATION'
+    crm: 'SHAWKY_CRM_INTEGRATION',
+    gateway_launch: 'SHAWKY_GATEWAY_LAUNCH'
   }.freeze
 
   MASK_MODES = %w[last3 hidden].freeze

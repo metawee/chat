@@ -8,7 +8,7 @@ module Shawky::Patches::ContactSearch
 
   def contacts(relation, query)
     term = "%#{query}%"
-    scope = relation.where("contacts.custom_attributes->>'lead_id' ILIKE :term", term: term)
+    scope = relation.where("contacts.custom_attributes->>'#{Shawky::Lead::ID_KEY}' ILIKE :term", term: term)
     scope = scope.or(relation.where(id: query)) if query.match?(/\A\d+\z/)
     return scope if query.match?(DIGIT_RUN)
 

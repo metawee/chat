@@ -66,7 +66,7 @@ RSpec.describe 'Shawky phone masking sweep', :shawky, type: :request do
 
   before do
     conversation
-    contact.update!(custom_attributes: { 'lead_id' => 'L-104582' })
+    contact.update!(custom_attributes: { 'crm_lead_id' => 'L-104582' })
   end
 
   it 'masks every endpoint for an agent (dashboard auth)' do
