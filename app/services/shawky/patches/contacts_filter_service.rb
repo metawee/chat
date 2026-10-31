@@ -2,7 +2,7 @@ module Shawky::Patches::ContactsFilterService
   IDENTITY_ATTRIBUTES = %w[phone_number identifier].freeze
 
   def perform
-    return super unless Shawky::ConversationAccess.enabled?
+    return super unless Shawky::ConversationAccess.enabled?(@account)
 
     raise Pundit::NotAuthorizedError if shawky_identity_filter? && !shawky_access.can_search_by_phone?
 
@@ -10,7 +10,7 @@ module Shawky::Patches::ContactsFilterService
   end
 
   def base_relation
-    return super unless Shawky::ConversationAccess.enabled?
+    return super unless Shawky::ConversationAccess.enabled?(@account)
 
     shawky_access.filter_contacts(super)
   end

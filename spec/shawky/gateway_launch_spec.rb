@@ -57,7 +57,7 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
       get '/shawky/launch', params: { session: '../etc' }
 
       expect(response).to have_http_status(:bad_request)
-      expect(WebMock).not_to have_requested(:get, %r{gateway\.example\.com})
+      expect(WebMock).not_to have_requested(:get, /gateway\.example\.com/)
     end
 
     it 'explains when the salesman is not linked' do

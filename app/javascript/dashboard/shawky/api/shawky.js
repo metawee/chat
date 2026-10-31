@@ -22,6 +22,10 @@ class ShawkyAPI extends ApiClient {
     return axios.get(`${this.url}/routing`);
   }
 
+  gatewayHealth() {
+    return axios.get(`${this.url}/settings/gateway_health`);
+  }
+
   failback() {
     return axios.post(`${this.url}/settings/failback`);
   }

@@ -9,8 +9,9 @@
 class Shawky::ConversationAccess
   attr_reader :user, :account
 
-  def self.enabled?
-    Shawky::Config.enabled?(:access_control)
+  # Agents see only their conversations (Settings → Shawky), unless killed installation-wide.
+  def self.enabled?(account)
+    Shawky::Config.enabled?(:access_control) && Shawky::Settings.enabled?(account, :restricted_visibility)
   end
 
   def self.for(user, account)
@@ -98,8 +99,9 @@ class Shawky::ConversationAccess
     administrator?
   end
 
+  # Phone search is restricted only while numbers are masked.
   def can_search_by_phone?
-    administrator?
+    administrator? || !Shawky::PhoneMask.enabled?(account)
   end
 
   def can_assign_to?(assignee)

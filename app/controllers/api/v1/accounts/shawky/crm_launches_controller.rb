@@ -14,14 +14,18 @@ class Api::V1::Accounts::Shawky::CrmLaunchesController < Api::V1::Accounts::Base
                                            session_id: launch['session_id']).perform
     render json: { conversation_id: conversation.display_id, needs_template: !conversation.can_reply? }
   rescue ::Shawky::CrmLaunch::NotAllowed
-    ::Shawky::AuditLog.record!('crm_launch_denied', account: Current.account, ip_address: request.remote_ip,
-                                                    metadata: { session_id: launch['session_id'], salesman: launch.dig('lead', 'salesman') })
+    audit_denied(launch)
     render_error('not_allowed', :forbidden)
   rescue ::Shawky::CrmLaunch::InvalidLead
     render_error('invalid_lead', :unprocessable_entity)
   end
 
   private
+
+  def audit_denied(launch)
+    metadata = { session_id: launch['session_id'], salesman: launch.dig('lead', 'salesman') }
+    ::Shawky::AuditLog.record!('crm_launch_denied', account: Current.account, ip_address: request.remote_ip, metadata: metadata)
+  end
 
   def render_error(code, status)
     render json: { error: code }, status: status

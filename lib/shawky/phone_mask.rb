@@ -12,6 +12,11 @@ module Shawky::PhoneMask
 
   module_function
 
+  # Masking is on for the account (Settings → Shawky) and not killed installation-wide.
+  def enabled?(account)
+    Shawky::Config.enabled?(:phone_masking) && Shawky::Settings.enabled?(account, :phone_masking)
+  end
+
   def phone_like?(value)
     return false unless value.is_a?(String) && value.match?(PHONE_CHARS)
     return false if NOT_PHONE.any? { |pattern| value.match?(pattern) }

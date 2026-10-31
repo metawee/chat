@@ -5,7 +5,7 @@ module Shawky::Patches::ActionCableListener
   private
 
   def broadcast(account, tokens, event_name, data)
-    return super unless Shawky::ConversationAccess.enabled?
+    return super unless Shawky::ConversationAccess.enabled?(account)
 
     super(account, shawky_permitted_tokens(account, tokens, data), event_name, data)
   end

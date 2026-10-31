@@ -3,7 +3,7 @@ module Shawky::Patches::ContactConversationsController
   private
 
   def permitted_conversations
-    return super unless Shawky::ConversationAccess.enabled?
+    return super unless Shawky::ConversationAccess.enabled?(Current.account)
 
     conversations = Current.account.conversations.includes(
       :assignee, :contact, :taggings, :contact_inbox

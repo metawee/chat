@@ -45,7 +45,7 @@ module Shawky::Patches::ContactsController
   end
 
   def shawky_enabled?
-    Shawky::ConversationAccess.enabled?
+    Shawky::ConversationAccess.enabled?(Current.account)
   end
 
   def shawky_access

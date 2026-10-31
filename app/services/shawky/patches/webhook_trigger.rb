@@ -5,8 +5,14 @@ module Shawky::Patches::WebhookTrigger
   private
 
   def perform_request
-    @payload = Shawky::PayloadMasker.call(@payload) if Shawky::Config.enabled?(:phone_masking) && !shawky_trusted_target?
+    @payload = Shawky::PayloadMasker.call(@payload) if Shawky::PhoneMask.enabled?(shawky_account) && !shawky_trusted_target?
     super
+  end
+
+  # Conversation, message and contact webhook payloads carry account: { id, name }.
+  def shawky_account
+    account_id = @payload.dig(:account, :id) || @payload.dig('account', 'id') || @payload[:account_id]
+    account_id && Account.find_by(id: account_id)
   end
 
   def shawky_trusted_target?

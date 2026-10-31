@@ -14,6 +14,7 @@ namespace :api, defaults: { format: 'json' } do
           resources :crm_user_mappings, only: [:index, :create, :destroy]
           resource :settings, only: [:show, :update] do
             post :failback
+            get :gateway_health
           end
           resource :routing, only: [:show], controller: 'routing'
           resource :crm_launch, only: [:show, :create]

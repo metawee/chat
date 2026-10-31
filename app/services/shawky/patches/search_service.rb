@@ -27,13 +27,13 @@ module Shawky::Patches::SearchService
   end
 
   def message_base_query
-    return super unless Shawky::ConversationAccess.enabled?
+    return super unless Shawky::ConversationAccess.enabled?(current_account)
 
     super.where(conversation_id: shawky_access.filter_workable(current_account.conversations).select(:id))
   end
 
   def shawky_full_search?
-    !Shawky::ConversationAccess.enabled? || shawky_access.can_search_by_phone?
+    !Shawky::ConversationAccess.enabled?(current_account) || shawky_access.can_search_by_phone?
   end
 
   def shawky_access

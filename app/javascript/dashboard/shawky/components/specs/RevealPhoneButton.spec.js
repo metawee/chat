@@ -8,6 +8,9 @@ import en from 'dashboard/shawky/i18n/en.json';
 
 vi.mock('dashboard/composables/useAdmin', () => ({ useAdmin: vi.fn() }));
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
+vi.mock('dashboard/shawky/composables/useShawkyRouting', () => ({
+  useShawkyRouting: () => ({ routing: ref({ phone_masking_enabled: true }) }),
+}));
 vi.mock('dashboard/shawky/api/shawky', () => ({
   default: { revealPhone: vi.fn() },
 }));

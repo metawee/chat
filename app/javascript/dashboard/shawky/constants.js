@@ -11,3 +11,8 @@ export const COST_CATEGORIES = [
 ];
 export const MESSAGE_RATES_EXAMPLE =
   '{"SA": {"service": 0.0045, "marketing": 0.0455}, "default": {"service": 0.004}}';
+export const SETTING_SWITCHES = [
+  { key: 'phone_masking_enabled', i18nKey: 'PHONE_MASKING' },
+  { key: 'restricted_visibility_enabled', i18nKey: 'RESTRICTED_VISIBILITY' },
+  { key: 'gateway_launch_enabled', i18nKey: 'GATEWAY_LAUNCH' },
+];

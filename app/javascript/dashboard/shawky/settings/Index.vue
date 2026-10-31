@@ -11,6 +11,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ShawkyAPI from 'dashboard/shawky/api/shawky';
+import SwitchesSection from './SwitchesSection.vue';
 import { PHONE_MASK_MODES } from 'dashboard/shawky/constants';
 
 const { t } = useI18n();
@@ -191,7 +192,12 @@ const removeSupervisor = async id => {
     </template>
     <template #body>
       <div class="flex flex-col gap-8">
-        <section class="flex flex-col gap-3">
+        <SwitchesSection :settings="routing" @save="saveSettings" />
+
+        <section
+          v-if="routing.phone_masking_enabled"
+          class="flex flex-col gap-3"
+        >
           <h3 class="text-heading-3 text-n-slate-12">
             {{ t('SHAWKY.SETTINGS.MASK_MODE.TITLE') }}
           </h3>

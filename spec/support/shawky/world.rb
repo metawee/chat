@@ -3,7 +3,8 @@
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.shared_context 'with shawky world' do
   let(:customer_phone) { '+966542921507' }
-  let(:account) { create(:account) }
+  # Masking is off by default (Settings → Shawky); the leak specs run with it on.
+  let(:account) { create(:account, settings: { 'shawky_phone_masking_enabled' => true }) }
   let(:whatsapp_channel) do
     create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', phone_number: '+201212239999',
                               sync_templates: false, validate_provider_config: false)

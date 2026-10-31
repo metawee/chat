@@ -13,7 +13,10 @@
 #  user_id        :bigint
 #
 class Shawky::AuditLog < ApplicationRecord
-  ACTIONS = %w[phone_revealed conversation_reassigned export crm_launch number_failover number_failback account_purge crm_launch_denied settings_changed].freeze
+  ACTIONS = %w[
+    phone_revealed conversation_reassigned export crm_launch crm_launch_denied
+    number_failover number_failback account_purge settings_changed
+  ].freeze
 
   belongs_to :account
   belongs_to :user, optional: true

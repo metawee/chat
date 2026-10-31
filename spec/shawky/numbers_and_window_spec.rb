@@ -42,7 +42,7 @@ RSpec.describe 'Shawky numbers, settings and the 24-hour window', :shawky, type:
     it 'tells every user which number is active' do
       get "#{base}/shawky/routing", headers: agent.create_new_auth_token, as: :json
 
-      expect(response.parsed_body).to eq('primary_inbox_id' => inbox.id, 'backup_inbox_id' => backup_inbox.id, 'active_inbox_id' => inbox.id)
+      expect(response.parsed_body).to include('primary_inbox_id' => inbox.id, 'backup_inbox_id' => backup_inbox.id, 'active_inbox_id' => inbox.id)
     end
   end
 

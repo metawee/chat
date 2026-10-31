@@ -11,7 +11,7 @@ module Shawky::Patches::ContactsExportJob
 
   def value_for_header(contact, header)
     value = super
-    return value unless Shawky::Config.enabled?(:phone_masking)
+    return value unless Shawky::PhoneMask.enabled?(@account)
 
     header == 'name' ? Shawky::PhoneMask.mask_embedded(value) : Shawky::PayloadMasker.call(value)
   end

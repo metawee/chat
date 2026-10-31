@@ -15,7 +15,7 @@ module Shawky::Patches::ConversationPolicy
   private
 
   def shawky_applies?
-    Shawky::ConversationAccess.enabled? && user.is_a?(User)
+    Shawky::ConversationAccess.enabled?(account) && user.is_a?(User)
   end
 
   def shawky_access

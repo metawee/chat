@@ -11,7 +11,7 @@ module Shawky::ApiPayloadMasking
   private
 
   def shawky_strip_masked_params
-    return unless Shawky::Config.enabled?(:phone_masking)
+    return unless Shawky::PhoneMask.enabled?(Current.account)
 
     shawky_strip_masked(params)
   end
@@ -35,7 +35,7 @@ module Shawky::ApiPayloadMasking
   end
 
   def shawky_mask_response
-    return unless Shawky::Config.enabled?(:phone_masking)
+    return unless Shawky::PhoneMask.enabled?(Current.account)
     return if response.body.blank?
 
     case response.media_type

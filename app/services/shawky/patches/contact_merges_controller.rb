@@ -2,7 +2,7 @@
 # someone else's customer. Merging is for administrators.
 module Shawky::Patches::ContactMergesController
   def create
-    raise Pundit::NotAuthorizedError if Shawky::ConversationAccess.enabled? &&
+    raise Pundit::NotAuthorizedError if Shawky::ConversationAccess.enabled?(Current.account) &&
                                         !Shawky::ConversationAccess.for(Current.user, Current.account).administrator?
 
     super

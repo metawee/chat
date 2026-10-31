@@ -38,10 +38,14 @@ class Shawky::MockGateway
   private
 
   def claim(request, session_id)
-    return json(401, { error: 'unauthorized' }) unless request.get_header('HTTP_AUTHORIZATION') == "Bearer #{ENV.fetch('SHAWKY_GATEWAY_API_KEY', nil)}"
+    return json(401, { error: 'unauthorized' }) unless authorized?(request)
 
     data = Shawky::CrmLaunchStore.take_raw(self.class.session_key(session_id))
     data ? json(200, JSON.parse(data)) : json(410, { error: 'session expired or used' })
+  end
+
+  def authorized?(request)
+    request.get_header('HTTP_AUTHORIZATION') == "Bearer #{ENV.fetch('SHAWKY_GATEWAY_API_KEY', nil)}"
   end
 
   def launch(request)

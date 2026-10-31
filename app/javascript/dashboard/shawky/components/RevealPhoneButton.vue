@@ -3,6 +3,7 @@ import { ref, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useShawkyRouting } from 'dashboard/shawky/composables/useShawkyRouting';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ShawkyAPI from 'dashboard/shawky/api/shawky';
 import { REVEALED_PHONE_VISIBLE_MS } from 'dashboard/shawky/constants';
@@ -13,6 +14,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
+const { routing } = useShawkyRouting();
 
 const revealedPhone = ref('');
 const isLoading = ref(false);
@@ -38,7 +40,10 @@ onBeforeUnmount(() => clearTimeout(hideTimer));
 </script>
 
 <template>
-  <div v-if="isAdmin" class="flex items-center gap-2 ms-6">
+  <div
+    v-if="isAdmin && routing.phone_masking_enabled"
+    class="flex items-center gap-2 ms-6"
+  >
     <span
       v-if="revealedPhone"
       dir="ltr"

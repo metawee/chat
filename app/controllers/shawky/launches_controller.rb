@@ -12,10 +12,10 @@ class Shawky::LaunchesController < ActionController::Base # rubocop:disable Rail
     return render_error(:disabled, :not_found) unless Shawky::Config.enabled?(:gateway_launch)
     return render_error(:invalid_session, :bad_request) unless params[:session].to_s.match?(SESSION_FORMAT)
 
-    data = Shawky::Gateway::Client.new.claim_session(params[:session])
-    lead = data.fetch('lead')
-    mapping = Shawky::CrmUserMapping.find_by(crm_username: lead['salesman'].to_s.strip)
+    lead = Shawky::Gateway::Client.new.claim_session(params[:session]).fetch('lead')
+    mapping = salesman_mapping(lead)
     return render_error(:unknown_salesman, :forbidden) if mapping.nil?
+    return render_error(:disabled, :not_found) unless Shawky::Settings.enabled?(mapping.account, :gateway_launch)
 
     park(mapping.account, lead)
     redirect_to "/app/accounts/#{mapping.account_id}/shawky/crm-launch", status: :see_other
@@ -24,6 +24,10 @@ class Shawky::LaunchesController < ActionController::Base # rubocop:disable Rail
   end
 
   private
+
+  def salesman_mapping(lead)
+    Shawky::CrmUserMapping.find_by(crm_username: lead['salesman'].to_s.strip)
+  end
 
   def park(account, lead)
     cookies.encrypted[Shawky::CrmLaunchStore::COOKIE] = {

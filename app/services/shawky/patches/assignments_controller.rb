@@ -1,6 +1,6 @@
 module Shawky::Patches::AssignmentsController
   def create
-    return super unless Shawky::ConversationAccess.enabled?
+    return super unless Shawky::ConversationAccess.enabled?(Current.account)
 
     access = Shawky::ConversationAccess.for(Current.user, Current.account)
     raise Pundit::NotAuthorizedError unless shawky_assignment_allowed?(access)

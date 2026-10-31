@@ -56,6 +56,34 @@
         "REPLY_DELAY": "Alert the supervisor when a customer waits longer than (minutes)",
         "AUTO_REASSIGN": "Also reassign the conversation to another online agent",
         "FOLLOW_UP_DAYS": "Show in Follow-up after (days without an agent message)"
+      },
+      "SWITCHES": {
+        "PHONE_MASKING": {
+          "LABEL": "Hide customer numbers from agents",
+          "DESCRIPTION": "Agents and supervisors see •••507 instead of the number, and only administrators can search by phone or reveal a number.",
+          "CONFIRM": "This changes what every agent sees right away."
+        },
+        "RESTRICTED_VISIBILITY": {
+          "LABEL": "Agents see only their own conversations",
+          "DESCRIPTION": "Agents see conversations assigned to them, supervisors see their teams. When off, everyone in an inbox sees all its conversations.",
+          "CONFIRM": "This changes which conversations every agent can open right away."
+        },
+        "GATEWAY_LAUNCH": {
+          "LABEL": "Open chats from the CRM gateway",
+          "DESCRIPTION": "Lets the CRM WhatsApp button open conversations here through system.shawkygroup.com.",
+          "CONFIRM": "The CRM WhatsApp button will start or stop working right away."
+        },
+        "CONFIRM_ON": "Turn on: {name}?",
+        "CONFIRM_OFF": "Turn off: {name}?",
+        "CONFIRM_BUTTON": "Confirm",
+        "MASKING_WARNING": "Number hiding is not complete until the CRM sends a temporary code instead of the number."
+      },
+      "GATEWAY": {
+        "CONFIGURED": "Gateway connection is configured.",
+        "NOT_CONFIGURED": "Gateway URL or API key is missing on the server.",
+        "TEST": "Test connection",
+        "OK": "Connected",
+        "FAILED": "Could not reach the gateway"
       }
     },
     "WINDOW": {

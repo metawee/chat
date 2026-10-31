@@ -1,7 +1,7 @@
 # Bulk assignment skips the per-conversation transfer rules, so it is for supervisors and admins.
 module Shawky::Patches::BulkActionsController
   def create
-    raise Pundit::NotAuthorizedError if Shawky::ConversationAccess.enabled? && shawky_assignment_change? && !shawky_can_bulk_assign?
+    raise Pundit::NotAuthorizedError if Shawky::ConversationAccess.enabled?(Current.account) && shawky_assignment_change? && !shawky_can_bulk_assign?
 
     super
   end
