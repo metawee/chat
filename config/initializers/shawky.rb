@@ -46,3 +46,9 @@ end
 Rack::Attack.throttle('shawky/chat/ip', limit: 30, period: 1.minute) do |request|
   request.ip if request.path == '/chat'
 end
+
+# R7: attachment links (/rails/active_storage/...) stop working after this many hours, so a
+# copied link to a customer's photo or voice note does not stay valid forever. Off in the
+# test environment, where upstream specs compare generated URLs; Shawky's spec turns it on.
+attachment_url_ttl_hours = ENV.fetch('SHAWKY_ATTACHMENT_URL_TTL_HOURS', Rails.env.test? ? '0' : '24').to_i
+Rails.application.config.active_storage.urls_expire_in = attachment_url_ttl_hours.hours if attachment_url_ttl_hours.positive?

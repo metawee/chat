@@ -55,6 +55,27 @@ class ShawkyAPI extends ApiClient {
     return axios.post(`${this.url}/crm_launch`);
   }
 
+  getFollowUps() {
+    return axios.get(`${this.url}/follow_ups`);
+  }
+
+  getDataExports() {
+    return axios.get(`${this.url}/data_exports`);
+  }
+
+  createDataExport({ fromDate, toDate, fileFormat, includePhoneNumbers }) {
+    return axios.post(`${this.url}/data_exports`, {
+      from_date: fromDate,
+      to_date: toDate,
+      file_format: fileFormat,
+      include_phone_numbers: includePhoneNumbers,
+    });
+  }
+
+  getCostReport({ from, to }) {
+    return axios.get(`${this.url}/reports/costs`, { params: { from, to } });
+  }
+
   getTeamSupervisors() {
     return axios.get(`${this.url}/team_supervisors`);
   }

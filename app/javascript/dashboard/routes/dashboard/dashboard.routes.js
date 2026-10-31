@@ -10,6 +10,7 @@ import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
+import shawkyDashboardRoutes from 'dashboard/shawky/dashboard.routes'; // SHAWKY
 import Suspended from './suspended/Index.vue';
 import NoAccounts from './noAccounts/Index.vue';
 import ShopifySelectAccount from './shopify/SelectAccount.vue';
@@ -28,6 +29,7 @@ export default {
       component: AppContainer,
       children: [
         ...captainRoutes,
+        ...shawkyDashboardRoutes.routes, // SHAWKY: follow-up page
         ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,

@@ -2,9 +2,12 @@ class Api::V1::Accounts::Shawky::SettingsController < Api::V1::Accounts::Shawky:
   # request param => account.settings key
   SETTING_KEYS = {
     phone_mask_mode: 'shawky_phone_mask_mode', primary_inbox_id: 'shawky_primary_inbox_id', backup_inbox_id: 'shawky_backup_inbox_id',
-    welcome_message: 'shawky_welcome_message', crm_owner_wait_seconds: 'shawky_crm_owner_wait_seconds'
+    welcome_message: 'shawky_welcome_message', crm_owner_wait_seconds: 'shawky_crm_owner_wait_seconds',
+    reply_delay_minutes: 'shawky_reply_delay_minutes', auto_reassign_on_delay: 'shawky_auto_reassign_on_delay',
+    follow_up_days: 'shawky_follow_up_days', message_rates: 'shawky_message_rates'
   }.freeze
-  INTEGER_SETTINGS = %i[primary_inbox_id backup_inbox_id crm_owner_wait_seconds].freeze
+  INTEGER_SETTINGS = %i[primary_inbox_id backup_inbox_id crm_owner_wait_seconds reply_delay_minutes follow_up_days].freeze
+  BOOLEAN_SETTINGS = %i[auto_reassign_on_delay].freeze
 
   before_action :validate_settings, only: [:update]
 
@@ -14,7 +17,9 @@ class Api::V1::Accounts::Shawky::SettingsController < Api::V1::Accounts::Shawky:
       phone_mask_mode: ::Shawky::Config.mask_mode(Current.account),
       primary_inbox_id: routing.primary_inbox_id, backup_inbox_id: routing.backup_inbox_id,
       active_inbox_id: routing.configured? ? routing.active_inbox_id : nil,
-      welcome_message: routing.welcome_message, crm_owner_wait_seconds: routing.crm_owner_wait.to_i
+      welcome_message: routing.welcome_message, crm_owner_wait_seconds: routing.crm_owner_wait.to_i,
+      reply_delay_minutes: routing.reply_delay.in_minutes.to_i, auto_reassign_on_delay: routing.auto_reassign_on_delay?,
+      follow_up_days: routing.follow_up_after.in_days.to_i, message_rates: Current.account.settings&.dig('shawky_message_rates') || {}
     }
   end
 
@@ -45,7 +50,23 @@ class Api::V1::Accounts::Shawky::SettingsController < Api::V1::Accounts::Shawky:
     SETTING_KEYS.each_with_object({}) do |(param, setting), changes|
       next unless params.key?(param)
 
-      changes[setting] = INTEGER_SETTINGS.include?(param) ? params[param].to_i : params[param].to_s
+      changes[setting] = cast_setting(param, params[param])
+    end
+  end
+
+  def cast_setting(param, value)
+    return value.to_i if INTEGER_SETTINGS.include?(param)
+    return ActiveModel::Type::Boolean.new.cast(value) == true if BOOLEAN_SETTINGS.include?(param)
+    return message_rates(value) if param == :message_rates
+
+    value.to_s
+  end
+
+  # { "SA" => { "marketing" => 0.0455 }, "default" => { ... } } with numeric rates only.
+  def message_rates(value)
+    value.to_unsafe_h.to_h do |country, categories|
+      key = country.to_s == 'default' ? 'default' : country.to_s.upcase
+      [key, categories.to_h.slice(*::Shawky::CostReport::CATEGORIES).transform_values(&:to_f)]
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_30_203255) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_30_210503) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1673,6 +1673,47 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_30_203255) do
     t.index ["account_id", "crm_user_id"], name: "index_shawky_crm_user_mappings_on_account_id_and_crm_user_id", unique: true
     t.index ["account_id"], name: "index_shawky_crm_user_mappings_on_account_id"
     t.index ["user_id"], name: "index_shawky_crm_user_mappings_on_user_id"
+  end
+
+  create_table "shawky_data_exports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.date "from_date", null: false
+    t.date "to_date", null: false
+    t.string "file_format", null: false
+    t.boolean "include_phone_numbers", default: false, null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shawky_data_exports_on_account_id"
+  end
+
+  create_table "shawky_delay_alerts", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "assignee_id", null: false
+    t.datetime "waiting_since", null: false
+    t.bigint "reassigned_to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shawky_delay_alerts_on_account_id"
+    t.index ["conversation_id", "waiting_since"], name: "index_shawky_delay_alerts_on_conversation_id_and_waiting_since", unique: true
+  end
+
+  create_table "shawky_message_costs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "message_id", null: false
+    t.bigint "sender_id"
+    t.string "category"
+    t.string "pricing_type"
+    t.boolean "billable", default: false, null: false
+    t.string "country_code"
+    t.datetime "sent_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "sent_at"], name: "index_shawky_message_costs_on_account_id_and_sent_at"
+    t.index ["message_id"], name: "index_shawky_message_costs_on_message_id", unique: true
   end
 
   create_table "shawky_team_supervisors", force: :cascade do |t|

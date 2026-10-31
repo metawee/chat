@@ -217,3 +217,4 @@ class Whatsapp::IncomingMessageBaseService
 end
 
 Whatsapp::IncomingMessageBaseService.prepend_mod_with('Whatsapp::IncomingMessageBaseService')
+Whatsapp::IncomingMessageBaseService.prepend(Shawky::Patches::WhatsappStatusPricing) # SHAWKY: cost report

@@ -9,6 +9,7 @@ import Select from 'dashboard/components-next/select/Select.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ShawkyAPI from 'dashboard/shawky/api/shawky';
 import { PHONE_MASK_MODES } from 'dashboard/shawky/constants';
 
@@ -27,6 +28,9 @@ const newUserId = ref('');
 const routing = ref({});
 const welcomeMessage = ref('');
 const crmOwnerWaitSeconds = ref(60);
+const replyDelayMinutes = ref(120);
+const autoReassignOnDelay = ref(false);
+const followUpDays = ref(3);
 const crmMappings = ref([]);
 const newCrmUserId = ref('');
 const newCrmMappedUserId = ref('');
@@ -76,6 +80,9 @@ const applySettings = data => {
   routing.value = data;
   welcomeMessage.value = data.welcome_message || '';
   crmOwnerWaitSeconds.value = data.crm_owner_wait_seconds;
+  replyDelayMinutes.value = data.reply_delay_minutes;
+  autoReassignOnDelay.value = data.auto_reassign_on_delay;
+  followUpDays.value = data.follow_up_days;
 };
 
 const loadCrmMappings = async () => {
@@ -275,6 +282,44 @@ const removeSupervisor = async id => {
                 saveSettings({
                   welcome_message: welcomeMessage,
                   crm_owner_wait_seconds: crmOwnerWaitSeconds,
+                })
+              "
+            />
+          </div>
+        </section>
+
+        <section class="flex flex-col gap-3">
+          <h3 class="text-heading-3 text-n-slate-12">
+            {{ t('SHAWKY.SETTINGS.SLA.TITLE') }}
+          </h3>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-body-main text-n-slate-11">
+              {{ t('SHAWKY.SETTINGS.SLA.REPLY_DELAY') }}
+            </span>
+            <Input
+              v-model="replyDelayMinutes"
+              type="number"
+              min="5"
+              class="w-24"
+            />
+          </div>
+          <label class="flex items-center gap-2 text-body-main">
+            <Switch v-model="autoReassignOnDelay" />
+            {{ t('SHAWKY.SETTINGS.SLA.AUTO_REASSIGN') }}
+          </label>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-body-main text-n-slate-11">
+              {{ t('SHAWKY.SETTINGS.SLA.FOLLOW_UP_DAYS') }}
+            </span>
+            <Input v-model="followUpDays" type="number" min="1" class="w-24" />
+            <NextButton
+              :label="t('SHAWKY.SETTINGS.SAVE')"
+              sm
+              @click="
+                saveSettings({
+                  reply_delay_minutes: replyDelayMinutes,
+                  auto_reassign_on_delay: autoReassignOnDelay,
+                  follow_up_days: followUpDays,
                 })
               "
             />

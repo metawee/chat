@@ -423,6 +423,13 @@ const menuItems = computed(() => {
             : 0,
           to: accountScopedRoute('conversation_unattended'),
         },
+        // SHAWKY: conversations waiting for a follow-up
+        {
+          name: 'Shawky Follow-ups',
+          label: t('SHAWKY.FOLLOW_UPS.SIDEBAR'),
+          icon: 'i-lucide-calendar-clock',
+          to: accountScopedRoute('shawky_follow_ups'),
+        },
         {
           name: 'Folders',
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
@@ -881,6 +888,12 @@ const menuItems = computed(() => {
           label: t('SHAWKY.SIDEBAR'),
           icon: 'i-lucide-shield-check',
           to: accountScopedRoute('shawky_settings'),
+        },
+        {
+          name: 'Settings Shawky Reports',
+          label: t('SHAWKY.REPORTS.SIDEBAR'),
+          icon: 'i-lucide-file-spreadsheet',
+          to: accountScopedRoute('shawky_reports'),
         },
         {
           name: 'Settings Labels',

@@ -50,6 +50,12 @@
         "CRM_ID": "CRM user ID (e.g. U-77)",
         "USER": "User",
         "ADD": "Link"
+      },
+      "SLA": {
+        "TITLE": "Response time and follow-up",
+        "REPLY_DELAY": "Alert the supervisor when a customer waits longer than (minutes)",
+        "AUTO_REASSIGN": "Also reassign the conversation to another online agent",
+        "FOLLOW_UP_DAYS": "Show in Follow-up after (days without an agent message)"
       }
     },
     "WINDOW": {
@@ -68,6 +74,53 @@
         "NOT_ALLOWED": "This lead belongs to another sales agent. Only their agent or supervisor can open it.",
         "INVALID_LEAD": "The CRM did not send a valid WhatsApp number for this lead.",
         "UNKNOWN": "Something went wrong. Try again from the CRM."
+      }
+    },
+    "FOLLOW_UPS": {
+      "SIDEBAR": "Follow-up",
+      "HEADER": "Follow-up",
+      "DESCRIPTION": "Open conversations where no agent has written for a few days.",
+      "EMPTY": "Nothing to follow up. Well done!",
+      "LAST_AGENT_MESSAGE": "Last agent message {time}",
+      "NO_AGENT_MESSAGE": "No agent message yet"
+    },
+    "REPORTS": {
+      "SIDEBAR": "Exports & costs",
+      "HEADER": "Exports & costs",
+      "DESCRIPTION": "Export conversations for the records and estimate WhatsApp spend.",
+      "EXPORT": {
+        "TITLE": "Export conversations",
+        "DESCRIPTION": "All conversations and messages in the date range. Every export is recorded in the audit log.",
+        "INCLUDE_PHONES": "Include full phone numbers",
+        "WITH_PHONES": "with phone numbers",
+        "BUTTON": "Export",
+        "QUEUED": "Export started. It will appear below when ready.",
+        "DOWNLOAD": "Download",
+        "STATUS": {
+          "PENDING": "Preparing…",
+          "COMPLETED": "Ready",
+          "FAILED": "Failed"
+        },
+        "RANGE": "From {from} to {to}"
+      },
+      "COSTS": {
+        "TITLE": "WhatsApp cost estimate",
+        "DESCRIPTION": "Based on the pricing Meta reports for each message. The first 1,000 service messages per number each month are free.",
+        "BUTTON": "Show",
+        "NO_RATES": "No rates entered yet: counts are shown, costs are 0.",
+        "NUMBERS": "Per number",
+        "AGENTS": "Per agent",
+        "NAME": "Name",
+        "TOTAL": "Total",
+        "SYSTEM": "System / templates",
+        "CATEGORIES": {
+          "SERVICE": "Service",
+          "UTILITY": "Utility",
+          "MARKETING": "Marketing",
+          "AUTHENTICATION": "Authentication"
+        },
+        "RATES_HELP": "Rates in USD per message from Meta's rate card, by customer country code, plus a default. Example:",
+        "INVALID_RATES": "The rates are not valid JSON"
       }
     }
   }

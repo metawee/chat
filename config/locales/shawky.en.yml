@@ -20,3 +20,6 @@ en:
         rate_limited: 'Too many attempts. Wait a minute and try again from the CRM.'
         unknown_agent: 'The CRM user of this lead is not linked to a user here. Ask an administrator to link them in Shawky settings.'
         crm_unavailable: 'The CRM did not respond. Try again in a moment.'
+    delay_alert:
+      note: '⏱ Response delay: the customer has been waiting %{hours} hours for a reply from %{agent}.'
+      reassigned: 'Reassigned to %{agent}.'

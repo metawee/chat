@@ -1,6 +1,7 @@
 # Primary/backup WhatsApp numbers. Settings live in account.settings:
 #   shawky_primary_inbox_id, shawky_backup_inbox_id, shawky_active_inbox_id,
-#   shawky_welcome_message, shawky_crm_owner_wait_seconds
+#   shawky_welcome_message, shawky_crm_owner_wait_seconds,
+#   shawky_reply_delay_minutes, shawky_auto_reassign_on_delay, shawky_follow_up_days
 # New outbound conversations (CRM launches, "continue on active number") use the active inbox.
 class Shawky::Routing
   # Phone number statuses from Meta's health API that mean the number cannot be used.
@@ -9,6 +10,8 @@ class Shawky::Routing
   # 131031 business account locked, 368 temporarily blocked for policy violations.
   FAILOVER_ERROR_CODES = %w[131031 368].freeze
   DEFAULT_CRM_OWNER_WAIT_SECONDS = 60
+  DEFAULT_REPLY_DELAY_MINUTES = 120
+  DEFAULT_FOLLOW_UP_DAYS = 3
 
   attr_reader :account
 
@@ -49,6 +52,24 @@ class Shawky::Routing
 
   def crm_owner_wait
     (settings['shawky_crm_owner_wait_seconds'] || DEFAULT_CRM_OWNER_WAIT_SECONDS).to_i.seconds
+  end
+
+  def managed_inbox_ids
+    [primary_inbox_id, backup_inbox_id].compact
+  end
+
+  # R4: alert the supervisor when a customer waits this long for a reply (contract: 2 hours).
+  def reply_delay
+    (settings['shawky_reply_delay_minutes'] || DEFAULT_REPLY_DELAY_MINUTES).to_i.minutes
+  end
+
+  def auto_reassign_on_delay?
+    settings['shawky_auto_reassign_on_delay'] == true
+  end
+
+  # R5: conversations with no agent message for this long show up as follow-ups.
+  def follow_up_after
+    (settings['shawky_follow_up_days'] || DEFAULT_FOLLOW_UP_DAYS).to_i.days
   end
 
   def failover!(reason:, details: {})

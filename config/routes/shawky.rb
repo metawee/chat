@@ -17,6 +17,9 @@ namespace :api, defaults: { format: 'json' } do
           end
           resource :routing, only: [:show], controller: 'routing'
           resource :crm_launch, only: [:show, :create]
+          resources :follow_ups, only: [:index]
+          resources :data_exports, only: [:index, :create]
+          get 'reports/costs', to: 'cost_reports#show'
         end
       end
     end

@@ -7,7 +7,10 @@ class Shawky::ScheduledJobsJob < ApplicationJob
 
     Account.find_each do |account|
       routing = Shawky::Routing.new(account)
-      Shawky::NumberHealthJob.perform_later(account) if routing.configured? && !routing.on_backup?
+      next unless routing.configured?
+
+      Shawky::NumberHealthJob.perform_later(account) unless routing.on_backup?
+      Shawky::ResponseDelayScanJob.perform_later(account)
     end
   end
 end
