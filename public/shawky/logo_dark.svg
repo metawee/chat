@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 240" width="980" height="240">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3d77a"/>
+      <stop offset="0.45" stop-color="#c9a227"/>
+      <stop offset="1" stop-color="#8a6410"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(8 8) scale(0.4375)">
+    <path fill="url(#gold)" fill-rule="evenodd" d="M256 28 L488 458 L24 458 Z M256 118 L98 410 L414 410 Z"/>
+    <path fill="url(#gold)" d="M150 360 L214 248 L300 248 L326 292 L250 292 L236 316 L340 316 L362 360 Z"/>
+    <path fill="url(#gold)" d="M262 214 L318 214 L282 152 L256 196 Z M330 236 L362 236 L404 320 L372 320 Z"/>
+  </g>
+  <text x="250" y="150" font-family="'Segoe UI', 'Noto Sans Arabic', Tahoma, Arial, sans-serif" font-size="92" font-weight="700" fill="#e2c063">Shawky Group</text>
+</svg>

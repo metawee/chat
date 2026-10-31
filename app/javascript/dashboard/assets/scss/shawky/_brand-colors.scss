@@ -1,0 +1,35 @@
+// SHAWKY: Shawky Group gold accent. Replaces the blue scale (the dashboard's primary colour)
+// only when the layout marks <html data-shawky-brand> (SHAWKY_BRANDING, on by default).
+// scss-lint:disable PropertySortOrder
+@layer base {
+  :root[data-shawky-brand] {
+    --blue-1: 253 252 247;
+    --blue-2: 251 248 236;
+    --blue-3: 247 239 212;
+    --blue-4: 242 228 186;
+    --blue-5: 236 216 158;
+    --blue-6: 226 200 128;
+    --blue-7: 212 179 92;
+    --blue-8: 196 156 56;
+    --blue-9: 176 136 26;
+    --blue-10: 160 122 20;
+    --blue-11: 138 100 16;
+    --blue-12: 74 54 10;
+  }
+
+  :root[data-shawky-brand] .dark,
+  :root[data-shawky-brand].dark {
+    --blue-1: 22 18 8;
+    --blue-2: 29 24 11;
+    --blue-3: 46 37 13;
+    --blue-4: 61 48 14;
+    --blue-5: 76 60 18;
+    --blue-6: 94 74 24;
+    --blue-7: 117 92 30;
+    --blue-8: 146 114 34;
+    --blue-9: 176 136 26;
+    --blue-10: 192 150 36;
+    --blue-11: 226 192 99;
+    --blue-12: 245 230 190;
+  }
+}
