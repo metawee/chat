@@ -7,6 +7,8 @@ import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+// SHAWKY: agent scores entry for supervisors and administrators
+import { useShawkyRouting } from 'dashboard/shawky/composables/useShawkyRouting';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -55,6 +57,7 @@ const isCallsAvailable = computed(
 );
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
+const { routing: shawkyRouting } = useShawkyRouting(); // SHAWKY
 
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
@@ -430,6 +433,17 @@ const menuItems = computed(() => {
           icon: 'i-lucide-calendar-clock',
           to: accountScopedRoute('shawky_follow_ups'),
         },
+        // SHAWKY: weekly AI score per agent (supervisors and administrators)
+        ...(shawkyRouting.value.can_view_agent_scores
+          ? [
+              {
+                name: 'Shawky Agent Scores',
+                label: t('SHAWKY.AGENT_SCORES.SIDEBAR'),
+                icon: 'i-lucide-gauge',
+                to: accountScopedRoute('shawky_agent_scores'),
+              },
+            ]
+          : []),
         {
           name: 'Folders',
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),

@@ -17,8 +17,7 @@ class Shawky::ResponseDelayAlert
   private
 
   def supervisors
-    team_ids = [conversation.team_id, *TeamMember.where(user_id: conversation.assignee_id).pluck(:team_id)].compact
-    users = User.where(id: Shawky::TeamSupervisor.where(account: conversation.account, team_id: team_ids).select(:user_id))
+    users = Shawky::TeamSupervisor.users_for(conversation)
     users.exists? ? users : conversation.account.administrators
   end
 
@@ -36,8 +35,7 @@ class Shawky::ResponseDelayAlert
 
   def post_note(agent, reassigned_to)
     I18n.with_locale(conversation.account.locale || I18n.default_locale) do
-      # The link part is URL-encoded: markdown ends a link at the first space.
-      mentions = supervisors.map { |user| "[@#{user.name}](mention://user/#{user.id}/#{ERB::Util.url_encode(user.name)})" }.join(' ')
+      mentions = Shawky::Mentions.markdown(supervisors)
       text = I18n.t('shawky.delay_alert.note', agent: agent.name, hours: hours_waiting)
       text += " #{I18n.t('shawky.delay_alert.reassigned', agent: reassigned_to.name)}" if reassigned_to
       conversation.messages.create!(account: conversation.account, inbox: conversation.inbox, message_type: :outgoing,

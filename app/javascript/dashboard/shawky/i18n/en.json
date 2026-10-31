@@ -150,6 +150,17 @@
         "RATES_HELP": "Rates in USD per message from Meta's rate card, by customer country code, plus a default. Example:",
         "INVALID_RATES": "The rates are not valid JSON"
       }
+    },
+    "AGENT_SCORES": {
+      "SIDEBAR": "Agent scores",
+      "HEADER": "Agent scores this week",
+      "DESCRIPTION": "Average AI review score per agent over the last 7 days. Scores come from n8n and are never sent to customers.",
+      "EMPTY": "No reviewed conversations this week.",
+      "AGENT": "Agent",
+      "AVERAGE": "Average score",
+      "REVIEWED": "Reviewed",
+      "FLAGGED": "With notes",
+      "ABUSE": "Abuse alerts"
     }
   }
 }

@@ -24,6 +24,11 @@ en:
         unknown_salesman: 'The salesman of this lead is not linked to a user here. Ask an administrator to link the CRM username in Shawky settings.'
         gateway_unavailable: 'Something went wrong while opening the chat. Try again from the CRM.'
         crm_unavailable: 'The CRM did not respond. Try again in a moment.'
+    ai_review:
+      note: '🤖 AI review: %{score}/100. %{summary}'
+      flags: 'Flags: %{flags}'
+    abuse_alert:
+      note: '🚩 Abuse alert: %{reason}'
     delay_alert:
       note: '⏱ Response delay: the customer has been waiting %{hours} hours for a reply from %{agent}.'
       reassigned: 'Reassigned to %{agent}.'

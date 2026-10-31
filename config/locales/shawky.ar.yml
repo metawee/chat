@@ -24,6 +24,11 @@ ar:
         unknown_salesman: 'موظف المبيعات بتاع العميل ده مش مربوط بمستخدم هنا. اطلب من المسؤول يربط اسم المستخدم في إعدادات شوقي.'
         gateway_unavailable: 'حصلت مشكلة وإحنا بنفتح المحادثة. جرّب تاني من الـ CRM.'
         crm_unavailable: 'الـ CRM لم يستجب. حاول مرة أخرى بعد قليل.'
+    ai_review:
+      note: '🤖 تقييم الذكاء الاصطناعي: %{score}/100. %{summary}'
+      flags: 'ملاحظات: %{flags}'
+    abuse_alert:
+      note: '🚩 تنبيه إساءة: %{reason}'
     delay_alert:
       note: '⏱ تأخير في الرد: العميل ينتظر ردًا من %{agent} منذ %{hours} ساعة.'
       reassigned: 'تمت إعادة التعيين إلى %{agent}.'

@@ -19,6 +19,12 @@ class Shawky::TeamSupervisor < ApplicationRecord
   validates :user_id, uniqueness: { scope: :team_id }
   validate :user_belongs_to_account
 
+  # Supervisors of the conversation's team and of the assignee's teams.
+  def self.users_for(conversation)
+    team_ids = [conversation.team_id, *TeamMember.where(user_id: conversation.assignee_id).pluck(:team_id)].compact
+    User.where(id: where(account_id: conversation.account_id, team_id: team_ids).select(:user_id))
+  end
+
   private
 
   def user_belongs_to_account

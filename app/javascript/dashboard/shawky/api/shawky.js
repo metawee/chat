@@ -63,6 +63,10 @@ class ShawkyAPI extends ApiClient {
     return axios.get(`${this.url}/follow_ups`);
   }
 
+  getAgentScores() {
+    return axios.get(`${this.url}/agent_scores`);
+  }
+
   getDataExports() {
     return axios.get(`${this.url}/data_exports`);
   }

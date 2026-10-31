@@ -9,20 +9,4 @@ namespace :shawky do
     puts "Purge scheduled for account #{account.id} (#{account.name}): #{report.to_json}"
     puts 'Sidekiq deletes the account and its files in the background (DeleteObjectJob); check the logs for completion.'
   end
-
-  desc 'Apply the Shawky Group name and logos to this installation (Super Admin can still change them later)'
-  task branding: :environment do
-    {
-      'INSTALLATION_NAME' => 'Shawky WhatsApp',
-      'BRAND_NAME' => 'Shawky Group',
-      'BRAND_URL' => ENV.fetch('FRONTEND_URL'),
-      'LOGO_THUMBNAIL' => '/shawky/logo_thumbnail.svg',
-      'LOGO' => '/shawky/logo.svg',
-      'LOGO_DARK' => '/shawky/logo_dark.svg'
-    }.each do |name, value|
-      InstallationConfig.find_or_initialize_by(name: name).update!(value: value)
-    end
-    GlobalConfig.clear_cache
-    puts 'Shawky branding applied.'
-  end
 end

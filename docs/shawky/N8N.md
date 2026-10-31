@@ -43,3 +43,50 @@ How Chatwoot handles it:
 - Errors return `401` for a bad or old signature (±300s) and `422` for a missing `lead.lead_id` or a malformed body.
 
 If n8n does not answer in time, round robin takes the conversation. A late answer still moves it to the CRM owner, provided no agent has replied yet.
+
+## 3. Assignment changes
+There is no separate event. `conversation_updated` fires on every assignment, transfer or team change, and
+`changed_attributes` holds `assignee_id` (`[previous, current]`) or `team_id`. Filter on that key in n8n.
+
+The AI hooks below also update `custom_attributes`, which fires `conversation_updated` too. Ignore changes that only
+touch `ai_*` keys, or n8n reviews its own writes in a loop.
+
+## 4. Reading conversations from n8n (system user)
+Create a dedicated administrator once on the server:
+
+```
+docker compose exec rails bundle exec rails "shawky:n8n_user[1,n8n@shawkygroup.com]"
+```
+
+It prints an API token. Store it in n8n as a credential and send it as the `api_access_token` header. Never paste
+it in chat. For the last 24 hours of a conversation:
+`GET /api/v1/accounts/1/conversations/<id>/messages`. For the list:
+`POST /api/v1/accounts/1/conversations/filter` with `last_activity_at` "days_before" filters.
+
+While phone masking is on, this user sees masked numbers like any other administrator. Use the signed webhook payloads
+when you need the full number.
+
+## 5. AI review (score, summary, flags)
+These calls use the same signing as section 2. AI output is stored for the team only and is never sent to the customer.
+
+```
+POST /shawky/hooks/n8n/ai_review
+{ "account_id": 1, "conversation_id": 42, "ai_score": 82, "ai_summary": "رد سريع ومهذب", "ai_flags": ["no_follow_up"] }
+```
+
+- `ai_score` must be an integer from 0 to 100; anything else returns `422`.
+- `ai_flags` is optional and must be a list of strings.
+- The values are stored as conversation custom attributes (`ai_score`, `ai_summary`, `ai_flags`, `ai_reviewed_at`). A private
+  note with the score is also added. Define these as conversation custom attributes in Settings so they show in the sidebar.
+- The weekly **Agent scores** page (sidebar, supervisors and administrators only) averages `ai_score` per assignee over
+  the last 7 days.
+
+## 6. Abuse alert
+
+```
+POST /shawky/hooks/n8n/abuse_alert
+{ "account_id": 1, "conversation_id": 42, "reason": "العميل اشتكى من ألفاظ الموظف" }
+```
+
+This adds the `abuse_flag` label, which is created in red if it is missing. It also posts a private note that mentions
+the conversation's supervisors and every administrator, so they are notified right away by web, push and email.

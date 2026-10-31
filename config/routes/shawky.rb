@@ -21,6 +21,7 @@ namespace :api, defaults: { format: 'json' } do
           resources :follow_ups, only: [:index]
           resources :data_exports, only: [:index, :create]
           get 'reports/costs', to: 'cost_reports#show'
+          resources :agent_scores, only: [:index]
         end
       end
     end
@@ -34,5 +35,7 @@ mount Shawky::MockCrm, at: '/mock_crm' if ActiveModel::Type::Boolean.new.cast(EN
 namespace :shawky do
   namespace :hooks do
     post 'n8n/crm_owner', to: 'n8n#crm_owner'
+    post 'n8n/ai_review', to: 'n8n#ai_review'
+    post 'n8n/abuse_alert', to: 'n8n#abuse_alert'
   end
 end
