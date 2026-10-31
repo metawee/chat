@@ -1,0 +1,34 @@
+# Builds the Shawky WhatsApp Windows installer (desktop/shawky-windows).
+name: Shawky Windows app
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'desktop/shawky-windows/**'
+      - '.github/workflows/shawky_windows_app.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop/shawky-windows
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop/shawky-windows/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Shawky-WhatsApp-Setup
+          path: desktop/shawky-windows/dist/*.exe
+          if-no-files-found: error
