@@ -1,5 +1,7 @@
 # Shawky WhatsApp on a real server: builds Chatwoot + Shawky code from this repository.
 # Run from this folder:  docker compose up -d --build
+# Rails listens on 127.0.0.1:${RAILS_PORT} only; put a reverse proxy in front of it
+# (aaPanel's Nginx), or start the bundled Caddy with:  docker compose --profile caddy up -d
 x-app: &app
   image: shawky-chatwoot:latest
   env_file: .env
@@ -25,8 +27,8 @@ services:
       dockerfile: docker/Dockerfile
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
-    expose:
-      - "3000"
+    ports:
+      - "127.0.0.1:${RAILS_PORT:-3000}:3000"
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api >/dev/null || exit 1"]
       interval: 30s
@@ -66,6 +68,7 @@ services:
 
   caddy:
     image: caddy:2
+    profiles: ["caddy"]
     ports:
       - "80:80"
       - "443:443"
