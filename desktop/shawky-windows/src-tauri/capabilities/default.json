@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "The remote dashboard gets no Tauri IPC; this only covers the local shell.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

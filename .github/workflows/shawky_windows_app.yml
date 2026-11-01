@@ -1,4 +1,4 @@
-# Builds the Shawky WhatsApp Windows installer (desktop/shawky-windows).
+# Builds the Shawky WhatsApp Windows installer (desktop/shawky-windows, Tauri + WebView2).
 name: Shawky Windows app
 
 on:
@@ -24,11 +24,16 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: desktop/shawky-windows/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: desktop/shawky-windows/src-tauri
       - run: npm ci
-      - run: npm test
+      - run: cargo test --locked
+        working-directory: desktop/shawky-windows/src-tauri
       - run: npm run dist
       - uses: actions/upload-artifact@v4
         with:
           name: Shawky-WhatsApp-Setup
-          path: desktop/shawky-windows/dist/*.exe
+          path: desktop/shawky-windows/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error

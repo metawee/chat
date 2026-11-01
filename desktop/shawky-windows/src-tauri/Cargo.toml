@@ -1,0 +1,24 @@
+[package]
+name = "shawky-whatsapp"
+version = "1.0.0"
+description = "Shawky WhatsApp desktop app: opens CRM WhatsApp buttons (shawkywhatsapp://) in the dashboard"
+authors = ["Shawky Group"]
+license = "MIT"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "=2.7.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.12.4", features = ["tray-icon"] }
+tauri-plugin-deep-link = "=2.6.2"
+tauri-plugin-single-instance = { version = "=2.5.4", features = ["deep-link"] }
+tauri-plugin-opener = "=2.7.2"
+url = "2.5.8"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

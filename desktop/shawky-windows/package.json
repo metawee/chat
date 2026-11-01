@@ -1,34 +1,14 @@
 {
   "name": "shawky-whatsapp-desktop",
-  "productName": "Shawky WhatsApp",
   "version": "1.0.0",
-  "description": "Shawky WhatsApp desktop app: opens CRM WhatsApp buttons (shawkywhatsapp://) in the Shawky WhatsApp dashboard",
-  "author": "Shawky Group",
-  "license": "MIT",
   "private": true,
-  "main": "src/main.js",
+  "license": "MIT",
   "scripts": {
-    "start": "electron .",
-    "test": "node --test",
-    "dist": "electron-builder --win nsis --publish never"
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "dist": "tauri build"
   },
   "devDependencies": {
-    "electron": "44.8.0",
-    "electron-builder": "26.17.0"
-  },
-  "build": {
-    "appId": "com.shawkygroup.whatsapp",
-    "productName": "Shawky WhatsApp",
-    "directories": { "output": "dist" },
-    "files": ["src/**/*", "build/icon.png"],
-    "protocols": [{ "name": "Shawky WhatsApp", "schemes": ["shawkywhatsapp"] }],
-    "win": { "target": "nsis", "icon": "build/icon.png" },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "shortcutName": "Shawky WhatsApp"
-    }
+    "@tauri-apps/cli": "2.12.3"
   }
 }
