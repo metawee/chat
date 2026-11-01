@@ -99,7 +99,6 @@
       "ERROR_TITLE": "Could not open the chat",
       "ERRORS": {
         "EXPIRED": "This CRM link has expired. Press the WhatsApp button in the CRM again.",
-        "NOT_ALLOWED": "This customer is not assigned to you.",
         "INVALID_LEAD": "The CRM did not send a valid WhatsApp number for this lead.",
         "UNKNOWN": "Something went wrong. Try again from the CRM."
       }

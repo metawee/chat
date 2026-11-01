@@ -11,10 +11,9 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
   end
   let(:launch_api) { "/api/v1/accounts/#{account.id}/shawky/crm_launch" }
 
-  before do
-    configure_routing
-    Shawky::CrmUserMapping.create!(account: account, crm_username: 'rawda', user: agent)
-  end
+  around { |example| ClimateControl.modify(SHAWKY_GATEWAY_ACCOUNT_ID: account.id.to_s) { example.run } }
+
+  before { configure_routing }
 
   def open_launch(launch_lead = lead)
     get '/shawky/launch', params: { session: Shawky::MockGateway.create_session(launch_lead) }
@@ -60,11 +59,10 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
       expect(WebMock).not_to have_requested(:get, /gateway\.example\.com/)
     end
 
-    it 'explains when the salesman is not linked' do
+    it 'does not need the CRM salesman to be linked to a user' do
       open_launch(lead.merge('salesman' => 'unknown'))
 
-      expect(response).to have_http_status(:forbidden)
-      expect(response.body).to include('مش مربوط')
+      expect(response).to have_http_status(:see_other)
     end
 
     it 'can be switched off' do
@@ -75,7 +73,7 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
   end
 
   describe 'finishing in the dashboard' do
-    it 'opens a conversation on the active number assigned to the salesman, with the CRM fields saved' do
+    it 'opens a conversation on the active number assigned to whoever clicked, with the CRM fields saved' do
       open_launch
       finish_as(agent)
 
@@ -107,21 +105,19 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
       expect(log.metadata.to_json).not_to include('1289758825')
     end
 
-    it 'lets the supervisor and administrators open it, still assigned to the salesman' do
-      [supervisor, admin].each do |user|
-        open_launch
-        finish_as(user)
-        expect(account.conversations.find_by!(display_id: response.parsed_body['conversation_id']).assignee).to eq(agent)
-      end
+    it 'gives a new conversation to an administrator who opens it' do
+      open_launch
+      finish_as(admin)
+
+      expect(account.conversations.find_by!(display_id: response.parsed_body['conversation_id']).assignee).to eq(admin)
     end
 
-    it 'refuses other agents with an audited attempt' do
-      open_launch
-      finish_as(outsider)
-
-      expect(response).to have_http_status(:forbidden)
-      expect(response.parsed_body['error']).to eq('not_allowed')
-      expect(Shawky::AuditLog.where(action: 'crm_launch_denied')).to exist
+    it 'leaves an assigned conversation with its agent when a supervisor or administrator opens it' do
+      [supervisor, admin].each do |user|
+        open_launch(lead.merge('phone' => customer_phone))
+        finish_as(user)
+        expect(conversation.reload.assignee).to eq(agent)
+      end
     end
 
     it 'can be used once only' do
@@ -132,7 +128,7 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
       expect(response).to have_http_status(:gone)
     end
 
-    it 'takes the open conversation back for the salesman' do
+    it 'hands the open conversation to the agent who clicked' do
       conversation.update!(assignee: teammate)
       open_launch(lead.merge('phone' => customer_phone))
       finish_as(agent)

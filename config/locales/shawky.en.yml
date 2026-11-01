@@ -21,7 +21,6 @@ en:
         unknown_agent: 'The CRM user of this lead is not linked to a user here. Ask an administrator to link them in Shawky settings.'
         invalid_session: 'This link is not valid. Press the WhatsApp button in the CRM again.'
         expired_session: 'The link has expired. Go back to the CRM and press the button again.'
-        unknown_salesman: 'The salesman of this lead is not linked to a user here. Ask an administrator to link the CRM username in Shawky settings.'
         gateway_unavailable: 'Something went wrong while opening the chat. Try again from the CRM.'
         crm_unavailable: 'The CRM did not respond. Try again in a moment.'
     ai_review:

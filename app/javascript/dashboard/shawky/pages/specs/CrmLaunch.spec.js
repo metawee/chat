@@ -37,11 +37,11 @@ describe('CrmLaunch', () => {
 
   it('explains why the launch failed', async () => {
     ShawkyAPI.completeCrmLaunch.mockRejectedValue({
-      response: { data: { error: 'not_allowed' } },
+      response: { data: { error: 'expired' } },
     });
     const wrapper = mountPage();
     await flushPromises();
 
-    expect(wrapper.text()).toContain('This customer is not assigned to you.');
+    expect(wrapper.text()).toContain('This CRM link has expired. Press the WhatsApp button in the CRM again.');
   });
 });
