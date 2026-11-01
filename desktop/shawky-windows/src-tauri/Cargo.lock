@@ -3146,6 +3146,8 @@ dependencies = [
 name = "shawky-whatsapp"
 version = "1.0.0"
 dependencies = [
+ "serde",
+ "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-deep-link",
