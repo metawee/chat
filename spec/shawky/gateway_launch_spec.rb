@@ -120,6 +120,15 @@ RSpec.describe 'Shawky gateway WhatsApp launch', :shawky, type: :request do
       end
     end
 
+    it 'explains when no primary WhatsApp number is set' do
+      account.update!(settings: account.settings.except('shawky_primary_inbox_id', 'shawky_backup_inbox_id'))
+      open_launch
+      finish_as(agent)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('no_whatsapp_number')
+    end
+
     it 'can be used once only' do
       open_launch
       finish_as(agent)

@@ -10,6 +10,7 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const errorCode = ref('');
+const KNOWN_ERRORS = ['expired', 'invalid_lead', 'no_whatsapp_number'];
 
 onMounted(async () => {
   try {
@@ -23,7 +24,8 @@ onMounted(async () => {
       query: data.needs_template ? { shawky_open_templates: 1 } : {},
     });
   } catch (error) {
-    errorCode.value = error.response?.data?.error || 'unknown';
+    const code = error.response?.data?.error;
+    errorCode.value = KNOWN_ERRORS.includes(code) ? code : 'unknown';
   }
 });
 </script>

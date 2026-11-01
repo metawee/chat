@@ -100,7 +100,8 @@
       "ERRORS": {
         "EXPIRED": "This CRM link has expired. Press the WhatsApp button in the CRM again.",
         "INVALID_LEAD": "The CRM did not send a valid WhatsApp number for this lead.",
-        "UNKNOWN": "Something went wrong. Try again from the CRM."
+        "UNKNOWN": "Something went wrong. Try again from the CRM.",
+        "NO_WHATSAPP_NUMBER": "No primary WhatsApp number is set yet. An administrator can choose it in Settings → Shawky settings."
       }
     },
     "FOLLOW_UPS": {

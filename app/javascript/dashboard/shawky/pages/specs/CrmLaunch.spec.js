@@ -42,6 +42,20 @@ describe('CrmLaunch', () => {
     const wrapper = mountPage();
     await flushPromises();
 
-    expect(wrapper.text()).toContain('This CRM link has expired. Press the WhatsApp button in the CRM again.');
+    expect(wrapper.text()).toContain(
+      'This CRM link has expired. Press the WhatsApp button in the CRM again.'
+    );
+  });
+
+  it('shows a generic message for unexpected errors instead of a raw key', async () => {
+    ShawkyAPI.completeCrmLaunch.mockRejectedValue({
+      response: { data: { error: 'Resource could not be found' } },
+    });
+    const wrapper = mountPage();
+    await flushPromises();
+
+    expect(wrapper.text()).toContain(
+      'Something went wrong. Try again from the CRM.'
+    );
   });
 });

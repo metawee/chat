@@ -4,10 +4,13 @@
 # lead that is already assigned leave it with its assignee.
 class Shawky::CrmLaunch
   class InvalidLead < StandardError; end
+  class NoWhatsappNumber < StandardError; end
 
   pattr_initialize [:account!, :user!, :lead!, :session_id]
 
   def perform
+    raise NoWhatsappNumber unless Shawky::Routing.new(account).configured?
+
     phone = Shawky::PhoneNumber.e164(lead['phone'])
     raise InvalidLead if phone.blank?
 

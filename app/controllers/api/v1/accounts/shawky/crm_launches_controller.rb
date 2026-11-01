@@ -15,6 +15,8 @@ class Api::V1::Accounts::Shawky::CrmLaunchesController < Api::V1::Accounts::Base
     render json: { conversation_id: conversation.display_id, needs_template: !conversation.can_reply? }
   rescue ::Shawky::CrmLaunch::InvalidLead
     render_error('invalid_lead', :unprocessable_entity)
+  rescue ::Shawky::CrmLaunch::NoWhatsappNumber
+    render_error('no_whatsapp_number', :unprocessable_entity)
   end
 
   private
